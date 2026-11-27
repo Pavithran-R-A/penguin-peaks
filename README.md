@@ -6,9 +6,13 @@ An original 3D platformer starring Pebbles the penguin. Run, jump, and collect f
 
 Open `index.html` in a desktop browser (or serve the folder with any static server). No build step and no network needed — Three.js is bundled locally in `assets/three.min.js`.
 
-- Move: WASD / arrow keys (or the on-screen D-pad on touch)
-- Jump: Space
+- Move: WASD / arrow keys (or the on-screen D-pad on touch) — remappable in Settings (O)
+- Jump: Space (variable height — release early for a short hop) · Belly slide: hold X while moving · Dash: Shift/K (World 3)
 - Goal: collect 20 fish and reach the flag. Watch out for spikes and gaps — you have 3 hearts.
+- Gamepad: left stick / D-pad to move, A jump, X dash, Y slide, Start pause (see Settings for the full list)
+- Level select: worlds you have reached (by checkpoint) can be replayed from the start screen
+- Settings (O): quality presets, render scale, music/SFX volumes, mute, reduced shake/flash, remappable controls, fullscreen
+- Saves live on this device (versioned schema, v2); progress, collection, achievements and settings persist
 
 ## Windows desktop build (Steam target)
 
@@ -32,6 +36,20 @@ npm run pack:win32
 ```
 
 Output: `dist/PenguinPeaks-win32-x64/PenguinPeaks.exe`.
+
+### Audit + improvement (M0–M2, branch `audit-remediation`)
+
+Independent audit (2026-11-27, baseline `4e53bf25`): **NOT READY FOR PAID RELEASE**.
+M0 preserved the baseline; M1 fixed all 10 defects PP-01..PP-10 with
+regression tests (`AUDIT_M1.md`); M2 improved the vertical slice
+(`AUDIT_M2.md`): tuned movement/camera (variable jump, coyote 0.16 s,
+landing shadow, objective marker, camera look-ahead + occlusion),
+belly-slide prototype (hold X / gamepad Y — kept, controllability
+verified), settings + remappable controls, gamepad support, original
+synthesized soundtrack + wind, achievement toast queue, level select,
+versioned save schema (v2). Full suite: `npm test` — 17/17 green
+(PP-01..PP-10 + M2a..M2g). Live Electron check:
+`node tests/live-electron-check.cjs` (screenshots in `tests/evidence/`).
 
 ### What's built in (money-making playbook)
 

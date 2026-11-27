@@ -37,7 +37,7 @@
   @media (pointer:coarse){#touch{display:flex}#controlsHelp{display:none}}
   /* Overlays */
   .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:20;background:rgba(24,8,28,.45);padding:14px}
-  .card{background:rgba(26,13,36,.92);border:2px solid #ff8c42;border-radius:14px;padding:22px 26px;max-width:460px;width:100%;text-align:center;box-shadow:0 18px 50px rgba(0,0,0,.55)}
+  .card{background:rgba(26,13,36,.92);border:2px solid #ff8c42;border-radius:14px;padding:22px 26px;max-width:460px;width:100%;text-align:center;box-shadow:0 18px 50px rgba(0,0,0,.55);max-height:88vh;overflow-y:auto}
   .card h1{margin:0 0 6px;font-size:30px;color:#ffd166;letter-spacing:.01em}
   .card h2{margin:0 0 8px;font-size:26px;color:#ffd166}
   .card p{margin:8px 0;color:#f3e9ff;font-size:14px;line-height:1.55}
@@ -46,15 +46,49 @@
   .bigbtn{background:#ff8c42;color:#221005;border:none;border-radius:10px;padding:13px 34px;font-size:18px;font-weight:800;cursor:pointer;min-height:48px;margin-top:12px;box-shadow:0 4px 0 #b85a1e}
   .bigbtn:active{transform:translateY(2px);box-shadow:0 2px 0 #b85a1e}
   .hidden{display:none !important}
+  /* Collection + achievements + teaching */
+  #hudColl{font-size:11px;color:#aee7ff;font-weight:700;margin-top:2px}
+  #sideBtns{position:fixed;top:112px;right:10px;z-index:7;display:flex;flex-direction:column;gap:8px}
+  .sidebtn{background:rgba(20,10,28,.8);color:#fff;border:1px solid rgba(255,180,120,.5);border-radius:8px;min-width:44px;min-height:44px;font-size:19px;cursor:pointer}
+  #teach{position:fixed;top:138px;left:50%;transform:translateX(-50%);width:min(92vw,560px);background:rgba(8,60,66,.94);border:2px solid #39d0c4;border-radius:10px;padding:10px 16px;z-index:6;opacity:0;pointer-events:none;text-align:center}
+  #teach b{color:#7df0e4;font-size:15px}
+  #teach span{display:block;font-size:13px;color:#eafffb;margin-top:2px;line-height:1.45}
+  #achToast{position:fixed;bottom:86px;left:50%;transform:translateX(-50%) translateY(16px);background:#241a02;border:2px solid #ffd166;color:#ffe9a8;border-radius:10px;padding:10px 18px;font-weight:800;font-size:14px;z-index:25;opacity:0;transition:opacity .35s,transform .35s;pointer-events:none;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  .panel{z-index:30}
+  .card.wide{max-width:560px;text-align:left;max-height:88vh;overflow-y:auto}
+  .card.wide h2{text-align:center}
+  .barWrap{height:12px;background:rgba(255,255,255,.14);border-radius:6px;overflow:hidden;margin:4px 0 10px}
+  .barFill{height:100%;background:linear-gradient(90deg,#ffb03a,#ffd166);border-radius:6px;transition:width .4s ease}
+  .worldRow{margin:10px 0}
+  .worldRow .wrHead{display:flex;justify-content:space-between;font-size:13.5px;font-weight:700;color:#ffe9c9}
+  .achRow{display:flex;gap:12px;align-items:flex-start;padding:9px 10px;border:1px solid rgba(255,255,255,.14);border-radius:10px;margin:8px 0;background:rgba(255,255,255,.04)}
+  .achRow .aIcon{font-size:24px;line-height:1}
+  .achRow .aName{font-weight:800;font-size:14px;color:#ffd166}
+  .achRow .aDesc{font-size:12.5px;color:#e8e2ff;line-height:1.45}
+  .achRow.locked{opacity:.55}
+  .achRow.locked .aName{color:#cfc4ee}
+  .achState{margin-left:auto;font-size:12px;font-weight:800;color:#7be495;white-space:nowrap}
+  .achRow.locked .achState{color:#b9aede}
+  .medalLine{font-size:14px;margin:5px 0;color:#ffe9c9;line-height:1.45}
+  .ghostbtn{background:rgba(255,255,255,.1);color:#ffe9c9;border:1px solid rgba(255,209,102,.55);border-radius:10px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer;min-height:44px;margin:10px 4px 0}
+  #dashBtn{display:none;width:64px;height:64px;border-radius:50%;font-size:12px;font-weight:800;background:rgba(57,208,196,.85)}
+  @media (pointer:coarse){#dashBtn.show{display:block}}
+  #slideBtn{display:none;width:64px;height:64px;border-radius:50%;font-size:12px;font-weight:800;background:rgba(255,255,255,.28)}
+  @media (pointer:coarse){#slideBtn{display:block}}
   #errBox{position:fixed;left:8px;right:8px;bottom:8px;z-index:99;background:#7a1020;color:#fff;padding:10px 12px;border-radius:8px;font-size:12px;display:none;white-space:pre-wrap}
   @media (max-width:480px){.card h1{font-size:24px}.card{padding:16px}#hudFish,#hudHearts{font-size:15px}.plate{padding:5px 8px}}
+  /* M2: short viewports (e.g. 640x400) get a compact card so the Start
+     button is reachable with less scrolling — the audit noted it was
+     only a ~6px sliver at 640x400 before scrolling. */
+  @media (max-height:520px){.card{padding:14px 18px}.card h1{font-size:24px}.card p{font-size:13px;margin:6px 0}.bigbtn{padding:10px 26px;font-size:16px;min-height:44px;margin-top:8px}.card .keys{line-height:1.6}}
+  @media (max-width:640px){#objective{font-size:11px;top:52px;max-width:94vw;overflow:hidden;text-overflow:ellipsis}}
 </style>
 </head>
 <body>
 <div id="game"></div>
 
 <div id="hud">
-  <div class="plate" id="hudFish">🐟 <span id="fishCount">0</span> / 20<div id="fishBarWrap"><div id="fishBar"></div></div></div>
+  <div class="plate" id="hudFish">🐟 <span id="fishCount">0</span> / 20<div id="fishBarWrap"><div id="fishBar"></div></div><div id="hudColl">Collection 0/24 · 0%</div></div>
   <div class="plate" id="hudLevel">LEVEL 1<br><span style="font-size:11px;color:#d6f3ff">Sunset Shallows</span></div>
   <div style="display:flex;gap:8px">
     <div class="plate" id="hudHearts"><span id="hearts">♥♥♥</span></div>
@@ -63,8 +97,15 @@
 </div>
 <div id="objective">Collect 20 fish, then reach the flag! 🏁</div>
 <div id="toast"></div>
+<div id="teach"><b id="teachTitle"></b><span id="teachText"></span></div>
+<div id="achToast"></div>
 <div id="hurtFlash"></div>
 <button id="pauseBtn" aria-label="Pause">⏸</button>
+<div id="sideBtns">
+  <button class="sidebtn" id="collBtn" title="Collection (C)" aria-label="Collection">🐟</button>
+  <button class="sidebtn" id="achBtn" title="Achievements (T)" aria-label="Achievements">🏆</button>
+  <button class="sidebtn" id="settingsBtn" title="Settings (O)" aria-label="Settings">⚙️</button>
+</div>
 
 <div id="controlsHelp">
   <b>W A S D</b> / <b>←↑↓→</b> Move &nbsp; <b>Space</b> Jump<br>
@@ -79,6 +120,8 @@
     <button class="tbtn" data-k="right" aria-label="Right">▶</button>
   </div>
   <button class="tbtn" id="jumpBtn">JUMP</button>
+  <button class="tbtn" id="dashBtn">DASH</button>
+  <button class="tbtn" id="slideBtn">SLIDE</button>
 </div>
 
 <!-- START -->
@@ -87,8 +130,11 @@
     <h1>🐧 Penguin Peaks</h1>
     <p><b>Pebbles the penguin</b> (red scarf, big dreams) must cross the icy floating islands at sunset. Gather <b style="color:#ffd166">20 fish</b> and reach the checkered flag on the far peak!</p>
     <p>Dodge the grumpy crabs, watch for ice spikes, ride the moving sled-platforms, and tap the checkpoint flags so a tumble doesn't cost you the whole climb.</p>
-    <div class="keys"><b>WASD / Arrows</b> Move &nbsp; <b>Space</b> Jump &nbsp; <b>P</b> Pause &nbsp; <b>R</b> Restart</div>
-    <button class="bigbtn" id="startBtn">▶ Start Adventure</button>
+    <p style="font-size:12.5px;color:#cfc4ee">There are <b style="color:#ffd166">24 fish</b> hidden across the three worlds. Your best collection per world and your trophies are saved on this device — chase 100%!</p>
+    <div class="keys"><b>WASD / Arrows</b> Move &nbsp; <b>Space</b> Jump &nbsp; <b>X (hold)</b> Belly Slide &nbsp; <b>P</b> Pause &nbsp; <b>R</b> Restart<br>World 2 teaches <b>Double Jump</b> · World 3 teaches <b>Dash</b> · <b>C</b> Collection · <b>T</b> Trophies</div>
+    <button class="bigbtn" id="startBtn">▶ Start Adventure</button><br>
+    <div id="levelSelect" style="margin-top:10px"></div>
+    <button class="ghostbtn" id="startCollBtn">🐟 Collection</button><button class="ghostbtn" id="startAchBtn">🏆 Achievements</button>
   </div>
 </div>
 
@@ -97,7 +143,9 @@
   <div class="card">
     <h2>⏸ Paused</h2>
     <p>Fish: <b id="pauseFish">0</b> / 20 &nbsp;•&nbsp; Time: <b id="pauseTime">0:00</b></p>
+    <p>Collection: <b id="pauseColl">0/24 · 0%</b></p>
     <button class="bigbtn" id="resumeBtn">Resume</button><br>
+    <button class="ghostbtn" id="pauseCollBtn">🐟 Collection</button><button class="ghostbtn" id="pauseAchBtn">🏆 Achievements</button><br>
     <button class="bigbtn" id="restartBtn2" style="background:#5ec8e6;box-shadow:0 4px 0 #2f7d99">Restart (R)</button>
   </div>
 </div>
@@ -108,7 +156,38 @@
     <h2 id="winTitle">🏆 You Win!</h2>
     <p id="winText">You reached the flag!</p>
     <p>🐟 Fish collected: <b id="winFish">0</b> / 20<br>⏱ Final time: <b id="winTime">0:00</b><br>♥ Hearts left: <b id="winHearts">3</b></p>
+    <div id="winMedals"></div>
+    <div style="margin-top:10px;font-size:13px;color:#ffe9c9">Collection <b id="winCollText">0/24 · 0%</b></div>
+    <div class="barWrap"><div class="barFill" id="winCollBar" style="width:0%"></div></div>
     <button class="bigbtn" id="playAgainBtn">Play Again</button>
+  </div>
+</div>
+
+<!-- COLLECTION -->
+<div class="overlay panel hidden" id="collectionScreen">
+  <div class="card wide">
+    <h2>🐟 Fish Collection</h2>
+    <div id="collBody"></div>
+    <div style="text-align:center"><button class="bigbtn" id="collClose">Close</button></div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENTS -->
+<div class="overlay panel hidden" id="achScreen">
+  <div class="card wide">
+    <h2>🏆 Achievements</h2>
+    <p style="text-align:center" id="achSummary"></p>
+    <div id="achBody"></div>
+    <div style="text-align:center"><button class="bigbtn" id="achClose">Close</button></div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="overlay panel hidden" id="settingsScreen">
+  <div class="card wide">
+    <h2>⚙️ Settings</h2>
+    <div id="settingsBody"></div>
+    <div style="text-align:center"><button class="bigbtn" id="settingsClose">Close</button></div>
   </div>
 </div>
 
@@ -124,15 +203,53 @@ window.addEventListener('unhandledrejection',function(e){errBox.style.display='b
 
 /* ============ AUDIO (WebAudio, created on first gesture) ============ */
 var AC=null;
-function audio(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(AC&&AC.state==='suspended')AC.resume(); return AC; }
-function tone(freq,dur,type,vol,when,slideTo){
+var windGain=null;
+function audio(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); if(AC)startWind(AC); }catch(e){} } if(AC&&AC.state==='suspended')AC.resume(); return AC; }
+/* M2: ambient wind — a looped, low-passed noise buffer started with the
+   first audio gesture. Original synthesis, no samples; gain follows
+   the music volume. Everything is guarded: where no AudioContext
+   exists (logic harness) audio() simply returns null. */
+function startWind(ac){
+  try{
+    var len=ac.sampleRate*2, buf=ac.createBuffer(1,len,ac.sampleRate), d=buf.getChannelData(0);
+    for(var i=0;i<len;i++)d[i]=Math.random()*2-1;
+    var src=ac.createBufferSource(); src.buffer=buf; src.loop=true;
+    var filt=ac.createBiquadFilter(); filt.type='lowpass'; filt.frequency.value=320;
+    windGain=ac.createGain(); windGain.gain.value=0.05*saveData.settings.musicVol;
+    src.connect(filt); filt.connect(windGain); windGain.connect(ac.destination); src.start();
+  }catch(e){}
+}
+/* M2: original soundtrack — a gentle 16-step A-minor pentatonic loop
+   (melody + soft bass roots), synthesized live with tone(). No licensed
+   material, no audio files: every note is generated in code. musicTick
+   is driven from the fixed-timestep step() while playing, so the tempo
+   never depends on frame rate. */
+var MUSIC_NOTES=[440,0,523.25,659.25,0,587.33,523.25,0,392,0,440,523.25,587.33,0,659.25,0];
+var MUSIC_BASS=[110,110,130.81,110,98,98,146.83,110,110,110,130.81,110,98,98,146.83,110];
+function musicTick(){
+  if(G.state!=='playing')return;
+  var n=MUSIC_NOTES[G.musicStep%MUSIC_NOTES.length];
+  if(n)tone(n,0.4,'triangle',0.11,0,0,'music');
+  if(G.musicStep%4===0)tone(MUSIC_BASS[G.musicStep%MUSIC_BASS.length],0.55,'sine',0.07,0,0,'music');
+  G.musicStep++;
+}
+/* M2: toneCalls counts audio actually attempted after the mute/volume
+   gate, so tests can prove mute and volume work even where no real
+   AudioContext exists (the harness has none — audio() returns null).
+   chan is 'sfx' (default) or 'music': the two volumes are independent
+   — silencing SFX never silences the soundtrack, and vice versa. */
+var toneCalls=0;
+function tone(freq,dur,type,vol,when,slideTo,chan){
+  var cv=chan==='music'?saveData.settings.musicVol:saveData.settings.sfxVol;
+  if(saveData.settings.muted||cv<=0)return;
+  toneCalls++;
   var ac=audio(); if(!ac)return;
   var t=ac.currentTime+(when||0);
   var o=ac.createOscillator(), g=ac.createGain();
   o.type=type||'sine'; o.frequency.setValueAtTime(freq,t);
   if(slideTo)o.frequency.exponentialRampToValueAtTime(slideTo,t+dur);
   g.gain.setValueAtTime(0.0001,t);
-  g.gain.exponentialRampToValueAtTime(vol||0.18,t+0.015);
+  g.gain.exponentialRampToValueAtTime((vol||0.18)*cv,t+0.015);
   g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
   o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t+dur+0.05);
 }
@@ -312,6 +429,16 @@ addPlatform(0,-93,5,5,4.1,{moveAxis:'x',moveRange:3.8,moveSpeed:1.35}); /* movin
 addPlatform(-3.5,-101,5,5,4.6);
 addPlatform(3,-108,5,5,5.1);
 addPlatform(0,-117,13,11,5.2);          /* flag island */
+/* World 2 high route — reached with the double jump taught at Checkpoint 1.
+   Ledge tops sit 3.3+ above the route below; a single jump gains ~2.1 and the
+   landing tolerance is 0.6, so these ledges cannot be reached without the
+   second jump. One bonus fish moved up here (total stays 24). */
+addPlatform(0,-47,5,4,5.0);
+addPlatform(0,-55,5,4,5.4);
+/* World 3 dash spur — a 7.5-wide gap west of the first Flag Peak platform.
+   A plain jump carries ~5.8; the dash burst is the way across. One bonus
+   fish moved onto the spur (total stays 24). */
+addPlatform(-12,-85,4,5,3.6);
 
 /* Decorative mini islets */
 [[-14,-20],[13,-38],[-15,-58],[14,-80],[-13,-98],[16,-112]].forEach(function(d,i){
@@ -352,6 +479,7 @@ addSnowman(-6.2,0,6.2);
 addPine(6.8,0,7.6,1.1); addPine(-7,0,-3.5,0.9); addMound(5.5,0,-4,0.9);
 addPine(-4.5,1.2,-35.3,1.0); addPine(4.5,1.2,-35.3,0.85); addMound(-4.6,1.2,-28.6,0.7);
 addPine(4.5,3.1,-78.2,1.0); addMound(-4.6,3.1,-71.8,0.8);
+addMound(1.9,5.4,-56.6,0.5); addPine(-13.2,3.6,-87.6,0.85);
 addPine(-5.2,5.2,-121.5,1.15); addPine(5.4,5.2,-113,0.95); addSnowman(4.9,5.2,-121); addMound(-5.4,5.2,-112.8,0.8);
 
 /* ============ HAZARDS (ice spikes) ============ */
@@ -388,14 +516,14 @@ function makeFish(x,y,z){
   var glow=new THREE.Sprite(new THREE.SpriteMaterial({map:snowTex,color:0xffb84d,transparent:true,opacity:0.5,depthWrite:false}));
   glow.scale.set(1.6,1.6,1); g.add(glow);
   g.position.set(x,y,z); scene.add(g);
-  var f={mesh:g,glow:glow,baseY:y,taken:false,phase:Math.random()*6.28};
+  var f={mesh:g,glow:glow,baseY:y,taken:false,phase:Math.random()*6.28,zone:(z<=-79.5?3:(z<=-36.5?2:1))};
   fishes.push(f); return f;
 }
 var fishSpots=[
  [0,1.0,-9.5],[-3.5,1.6,-17],[3.5,2.1,-24],[-2,2.2,-31],[2.5,2.2,-34],
  [0,2.7,-42],[0,3.2,-51],[-4,3.6,-60],[4,4.0,-67],[-2.5,4.1,-74],[3,4.1,-77],
  [0,4.6,-85],[0,5.1,-93],[-3.5,5.6,-101],[3,6.1,-108],[-3,6.2,-115],[3.5,6.2,-119],
- [-5,1.0,4],[5,1.0,0],[0,1.0,-4],[-1.5,2.7,-44],[2,4.6,-87],[-2,6.2,-113],[-2,3.6,-62]
+ [-5,1.0,4],[5,1.0,0],[0,1.0,-4],[0,6.4,-55],[-12,4.6,-85],[-2,6.2,-113],[-2,3.6,-62]
 ];
 fishSpots.forEach(function(s){ makeFish(s[0],s[1],s[2]); });
 
@@ -514,6 +642,19 @@ function buildPenguin(){
 }
 var penguin=buildPenguin(); scene.add(penguin);
 
+/* M2: landing shadow — a soft blob projected onto the island below the
+   penguin, so the landing spot stays readable while airborne. It shrinks
+   and fades as the penguin climbs, and sits on the highest platform top
+   at or below the penguin's feet. Uses a plane + the radial sprite
+   texture (no new geometry types, so the logic harness stub covers it). */
+var landingShadow=new THREE.Mesh(new THREE.PlaneGeometry(1.15,1.15),new THREE.MeshBasicMaterial({map:snowTex,color:0x0a2030,transparent:true,opacity:0.32,depthWrite:false}));
+landingShadow.rotation.x=-Math.PI/2; scene.add(landingShadow);
+/* M2: objective marker — a bouncing chevron above the next checkpoint
+   (or the goal flag once both checkpoints are active), so the player can
+   always see where to head next from anywhere on the course. */
+var objectiveMarker=new THREE.Mesh(new THREE.ConeGeometry(0.34,0.7,4),new THREE.MeshBasicMaterial({color:0xffd166}));
+scene.add(objectiveMarker);
+
 /* ============ GAME STATE ============ */
 var G={
   state:'start', /* start | playing | paused | won | over */
@@ -524,12 +665,66 @@ var G={
   squash:0, stretch:0, wasGrounded:true, combo:0, comboT:0,
   spawn:new THREE.Vector3(0,0,2),
   level:1,
-  groundPlat:null /* D2: platform the penguin is currently standing on, for the ride carry */
+  groundPlat:null, /* D2: platform the penguin is currently standing on, for the ride carry */
+  /* PP-02: ONE gameplay clock. gameClock advances only while playing, in
+     fixed 1/60 s physics steps; platforms, hazards and the speedrun timer
+     all derive from it, so frame rate cannot change game time. cosmeticT
+     drives look-only animation (fish bob, clouds, flag wave) and advances
+     on every rendered step, including pause. stallSeconds records real time
+     discarded when a single frame needs more than MAX_STEPS_PER_FRAME
+     physics steps (severe stall) instead of silently losing it. */
+  gameClock:0, cosmeticT:0, stallSeconds:0, _acc:0, saveError:false,
+  /* Sawtooth moves + run stats */
+  hasDoubleJump:false, hasDash:false, airJumps:0,
+  dashT:0, dashCd:0, dashDirX:0, dashDirZ:-1,
+  /* M2 belly-slide prototype: sliding is a grounded momentum mode —
+     hold X while moving to drop onto the belly and keep speed. slideDir
+     is the slide direction (steered slowly by input); it is validated
+     by tests/test-m2b-slide.js and cut if it proves uncontrollable. */
+  sliding:false, slideDirX:0, slideDirZ:-1,
+  tookDamage:false, zoneFish:[0,0,0],
+  /* M2 soundtrack clock: musicT accumulates fixed-step time while
+     playing; every 0.42 s musicTick() plays the next loop step. */
+  musicT:0, musicStep:0
 };
 var keys={forward:false,back:false,left:false,right:false};
+/* PP-03: track each PHYSICAL input source independently and derive the
+   directional action from all of them. The old code stored one boolean
+   per direction, so releasing W cleared 'forward' even while ArrowUp was
+   still held. activeCodes = keyboard codes currently down;
+   touchHeld = touch buttons currently down (gamepad sources join in PP-07). */
+var activeCodes={};
+var touchHeld={forward:false,back:false,left:false,right:false};
+var gamepadHeld={forward:false,back:false,left:false,right:false}; /* PP-07: gamepad directions (driven by M2 controller support) */
+/* PP-03 + M2: derive the directional action from all active physical
+   sources. Movement codes come from the (remappable) keyMap, so a
+   rebound forward key still drives 'forward'; touch and gamepad
+   sources join the same way. Releasing one alias never clears a
+   direction another alias still holds. */
+function recomputeKeys(){
+  keys.forward=false; keys.back=false; keys.left=false; keys.right=false;
+  for(var c in activeCodes){ var d=keyMap[c]; if(d)keys[d]=true; }
+  if(touchHeld.forward)keys.forward=true;
+  if(touchHeld.back)keys.back=true;
+  if(touchHeld.left)keys.left=true;
+  if(touchHeld.right)keys.right=true;
+  if(gamepadHeld.forward)keys.forward=true;
+  if(gamepadHeld.back)keys.back=true;
+  if(gamepadHeld.left)keys.left=true;
+  if(gamepadHeld.right)keys.right=true;
+}
 var jumpQueued=false;
+var dashQueued=false;
+/* M2: belly slide is level-based (held X), like movement — not an edge action. */
+var slideHeld=false;
 
 function fmtTime(s){ var m=Math.floor(s/60), ss=Math.floor(s%60); return m+':'+(ss<10?'0':'')+ss; }
+/* PP-10: tenths-precision time, so the displayed finish time and the
+   shortfall can never disagree (120.4 s used to display as "finished
+   2:00" while also being "1 seconds short of 2:00"). Computed from
+   whole tenths so 59.95 s never rounds up to a bogus "1:00.0". */
+function fmtTime1(s){ var t=Math.floor(s*10+1e-9); var m=Math.floor(t/600); var ss=(t%600)/10; return m+':'+(ss<10?'0':'')+ss.toFixed(1); }
+function secWord(n){ return Math.abs(n-1)<0.05?'second':'seconds'; }
 var elFish=document.getElementById('fishCount'), elHearts=document.getElementById('hearts'),
     elTimer=document.getElementById('timer'), elLevel=document.getElementById('hudLevel'),
     toastEl=document.getElementById('toast'); var toastTimer=null;
@@ -541,27 +736,435 @@ function updateHUD(){
   var names=['','Sunset Shallows','Crab Crossing','Flag Peak'];
   elLevel.innerHTML='LEVEL '+G.level+'<br><span style="font-size:11px;color:#d6f3ff">'+names[G.level]+'</span>';
   var bar=document.getElementById('fishBar'); if(bar)bar.style.width=(G.fish/20*100)+'%';
-  var obj=document.getElementById('objective'); if(obj)obj.textContent=G.fish>=20?'All 20 fish! Now reach the flag! 🏁':'Collect 20 fish, then reach the flag! 🏁';
+  /* M2: the objective line names the current world, its next goal and
+     the fish count, so the player always knows what to do next. */
+  var obj=document.getElementById('objective');
+  if(obj){
+    if(G.fish>=20)obj.textContent='All 20 fish! Now reach the flag! 🏁';
+    else obj.textContent='World '+G.level+' — '+names[G.level]+': '+(G.level<3?'reach Checkpoint '+G.level:'reach the flag')+' · 🐟 '+G.fish+'/20';
+  }
+  var hc=document.getElementById('hudColl'); if(hc)hc.textContent='Collection '+totalBest()+'/24 · '+collPct()+'%';
+}
+
+/* ============ PERSISTENT SAVE: COLLECTION + ACHIEVEMENTS (localStorage) ============ */
+var SAVE_KEY='penguinPeaksSaveV1';
+/* M2 settings (PDF §05): quality / render scale / volumes / mute /
+   reduced shake-flash / remappable controls, persisted in the save.
+   Old saves (no settings field) get these defaults on load. */
+function defaultSettings(){
+  return {
+    quality:'high', renderScale:1, musicVol:0.8, sfxVol:0.8, muted:false,
+    reduceShake:false, reduceFlash:false,
+    bindings:{
+      forward:['KeyW','ArrowUp'], back:['KeyS','ArrowDown'],
+      left:['KeyA','ArrowLeft'], right:['KeyD','ArrowRight'],
+      jump:['Space'], dash:['ShiftLeft','ShiftRight','KeyK'],
+      slide:['KeyX'], pause:['KeyP','Escape']
+    }
+  };
+}
+var saveData={bestZone:[0,0,0],lifetimeFish:0,wins:0,bestTime:0,ach:{},settings:defaultSettings(),unlockedWorld:1,schemaVersion:2};
+/* PP-08: validate + migrate saves on load. The old code trusted the
+   parsed JSON field-by-field with no range checks, so a corrupt /
+   hand-edited save could report impossible progress (bestZone [99,-5,3]
+   counted as 24/24). Now every field is type- and range-checked:
+   bestZone is 3 ints clamped to 0..8, counters are finite ints >= 0,
+   bestTime a finite number >= 0, ach an object of true flags; anything
+   else is clamped or ignored, and missing fields keep their defaults
+   (old-schema migration). A malformed save keeps the defaults AND
+   reports visibly instead of silently wiping progress. G.saveError is
+   set whenever loading or saving fails. */
+function clampZone(v){ v=Math.floor(Number(v)); if(!(v>=0))v=0; if(v>8)v=8; return v; }
+function loadSave(){
+  var raw=null;
+  try{ raw=localStorage.getItem(SAVE_KEY); }catch(e){ G.saveError=true; return; }
+  if(!raw)return;
+  var parsed=null;
+  try{ parsed=JSON.parse(raw); }catch(e){
+    G.saveError=true;
+    try{ errBox.style.display='block'; errBox.textContent='Save data is corrupt and could not be read — starting with a fresh profile. Your previous progress could not be recovered.'; }catch(e2){}
+    return;
+  }
+  if(!parsed||typeof parsed!=='object')return;
+  /* M2: versioned save schema. v1 saves (no schemaVersion, no settings,
+     no unlockedWorld) migrate by keeping their progress and taking the
+     defaults for the new fields; the migrated save is written back as
+     v2 on the next persist(). Unknown/future versions are treated the
+     same way — known fields are kept, new fields default. */
+  saveData.schemaVersion=2;
+  if(Array.isArray(parsed.bestZone)){
+    for(var i=0;i<3;i++)saveData.bestZone[i]=clampZone(parsed.bestZone[i]);
+  }
+  if(typeof parsed.lifetimeFish==='number'&&isFinite(parsed.lifetimeFish))saveData.lifetimeFish=Math.max(0,Math.floor(parsed.lifetimeFish));
+  if(typeof parsed.wins==='number'&&isFinite(parsed.wins))saveData.wins=Math.max(0,Math.floor(parsed.wins));
+  if(typeof parsed.bestTime==='number'&&isFinite(parsed.bestTime))saveData.bestTime=Math.max(0,parsed.bestTime);
+  if(typeof parsed.unlockedWorld==='number'&&isFinite(parsed.unlockedWorld))saveData.unlockedWorld=Math.max(1,Math.min(3,Math.floor(parsed.unlockedWorld)));
+  if(parsed.ach&&typeof parsed.ach==='object'){
+    for(var k in parsed.ach)if(parsed.ach[k]===true)saveData.ach[k]=true;
+  }
+  /* M2: validate + merge saved settings; anything missing or out of
+     range keeps the default (old-schema migration). */
+  if(parsed.settings&&typeof parsed.settings==='object'){
+    var st=parsed.settings, def=defaultSettings();
+    if(['high','medium','low'].indexOf(st.quality)>=0)saveData.settings.quality=st.quality;
+    if(typeof st.renderScale==='number'&&isFinite(st.renderScale))saveData.settings.renderScale=Math.max(0.5,Math.min(1,st.renderScale));
+    if(typeof st.musicVol==='number'&&isFinite(st.musicVol))saveData.settings.musicVol=Math.max(0,Math.min(1,st.musicVol));
+    if(typeof st.sfxVol==='number'&&isFinite(st.sfxVol))saveData.settings.sfxVol=Math.max(0,Math.min(1,st.sfxVol));
+    if(typeof st.muted==='boolean')saveData.settings.muted=st.muted;
+    if(typeof st.reduceShake==='boolean')saveData.settings.reduceShake=st.reduceShake;
+    if(typeof st.reduceFlash==='boolean')saveData.settings.reduceFlash=st.reduceFlash;
+    if(st.bindings&&typeof st.bindings==='object'){
+      for(var a in def.bindings){
+        if(Array.isArray(st.bindings[a])&&st.bindings[a].length&&st.bindings[a].every(function(c){ return typeof c==='string'; }))
+          saveData.settings.bindings[a]=st.bindings[a].slice();
+      }
+    }
+  }
+}
+loadSave();
+function persist(){
+  try{ localStorage.setItem(SAVE_KEY,JSON.stringify(saveData)); G.saveError=false; }
+  catch(e){
+    G.saveError=true;
+    try{ errBox.style.display='block'; errBox.textContent='Could not save progress ('+(e&&e.message||e)+'). Check storage space / permissions — progress is kept in memory for this session.'; }catch(e2){}
+  }
+}
+function totalBest(){ return Math.min(24,(saveData.bestZone[0]||0)+(saveData.bestZone[1]||0)+(saveData.bestZone[2]||0)); }
+function collPct(){ return Math.round(totalBest()/24*100); }
+/* Achievement ids mirror the names a Steamworks partner would register 1:1;
+   this build is in-game + local save only — no Steamworks SDK is integrated. */
+var ACHIEVEMENTS=[
+ {id:'ACH_FIRST_CATCH',icon:'🐟',name:'First Catch',desc:'Collect your first fish.'},
+ {id:'ACH_FIRST_WIN',icon:'🏁',name:'Peak Conqueror',desc:'Reach the flag with 20 fish and win for the first time.'},
+ {id:'ACH_WORLD_FEAST',icon:'🍽️',name:'Full Belly',desc:'Collect all 8 fish in a single world in one run.'},
+ {id:'ACH_COMPLETIONIST',icon:'👑',name:'Every Last Fish',desc:'Collect all 24 fish in a single run.'},
+ {id:'ACH_FULL_HEARTS',icon:'❤️',name:'Healthy Heart',desc:'Win with all 3 hearts left.'},
+ {id:'ACH_NO_DAMAGE',icon:'🪶',name:'Flawless Feathers',desc:'Win without taking any damage.'},
+ {id:'ACH_FISH_50',icon:'🎣',name:'Fishmonger',desc:'Collect 50 fish in total across all runs.',progress:function(){ return Math.min(50,saveData.lifetimeFish)+'/50 fish'; }},
+ {id:'ACH_SPEEDY',icon:'⏱️',name:'Speedy Penguin',desc:'Win in 2:00 or less.'},
+ {id:'ACH_DOUBLE_JUMP',icon:'🦘',name:'Double Trouble',desc:'Perform your first double jump in World 2.'},
+ {id:'ACH_DASH',icon:'💨',name:'Dash of Speed',desc:'Perform your first dash in World 3.'}
+];
+/* M2: achievement toasts are QUEUED, not overwritten. A win can unlock
+   four achievements at once (First Win + Full Hearts + No Damage +
+   Speedy); the old code showed only the last one — the rest vanished.
+   Now each toast shows for 3.4 s in order, then the next one appears. */
+var achToastTimer=null;
+var achToastQueue=[];
+var achToastShowing=false;
+function showNextAchToast(){
+  if(achToastShowing)return;
+  var next=achToastQueue.shift();
+  if(next===undefined)return;
+  achToastShowing=true;
+  var el=document.getElementById('achToast');
+  el.textContent='🏆 Achievement unlocked: '+next;
+  el.style.opacity=1; el.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(achToastTimer);
+  achToastTimer=setTimeout(function(){
+    el.style.opacity=0; el.style.transform='translateX(-50%) translateY(16px)';
+    achToastShowing=false;
+    setTimeout(showNextAchToast,400);
+  },3400);
+}
+function unlockAch(id){
+  if(saveData.ach[id])return;
+  saveData.ach[id]=true; persist();
+  var a=null; ACHIEVEMENTS.forEach(function(x){ if(x.id===id)a=x; });
+  if(!a)return;
+  achToastQueue.push(a.name);
+  showNextAchToast();
+  tone(659,0.14,'triangle',0.2,0); tone(880,0.14,'triangle',0.2,0.12); tone(1318,0.3,'triangle',0.2,0.24);
+}
+
+/* ============ PANELS (collection + achievements) ============ */
+var panelReturn=null;
+function renderPanels(){
+  var names=['Sunset Shallows','Crab Crossing','Flag Peak'];
+  var html='';
+  for(var i=0;i<3;i++){
+    var b=saveData.bestZone[i]||0;
+    html+='<div class="worldRow"><div class="wrHead"><span>World '+(i+1)+' — '+names[i]+'</span><span>'+b+'/8</span></div><div class="barWrap"><div class="barFill" style="width:'+(b/8*100)+'%"></div></div></div>';
+  }
+  html+='<p style="font-size:16px;text-align:center;margin:12px 0 4px">Total: <b style="color:#ffd166">Fish '+totalBest()+'/24 — '+collPct()+'%</b></p>';
+  html+='<p style="text-align:center;font-size:13px">Best per world is saved on this device. Lifetime fish caught: <b>'+saveData.lifetimeFish+'</b> · Wins: <b>'+saveData.wins+'</b>'+(saveData.bestTime?' · Best win time: <b>'+fmtTime1(saveData.bestTime)+'</b>':'')+'</p>';
+  document.getElementById('collBody').innerHTML=html;
+  var unlocked=0, ahtml='';
+  ACHIEVEMENTS.forEach(function(a){
+    var has=!!saveData.ach[a.id]; if(has)unlocked++;
+    var state=has?'Unlocked ✓':(a.progress?a.progress():'Locked');
+    ahtml+='<div class="achRow'+(has?'':' locked')+'"><div class="aIcon">'+a.icon+'</div><div><div class="aName">'+a.name+'</div><div class="aDesc">'+a.desc+'</div></div><div class="achState">'+state+'</div></div>';
+  });
+  document.getElementById('achSummary').textContent=unlocked+' of '+ACHIEVEMENTS.length+' unlocked — saved on this device.';
+  document.getElementById('achBody').innerHTML=ahtml;
+}
+function openPanel(id){
+  clearQueuedActions();
+  renderPanels();
+  if(G.state==='playing'){ panelReturn='playing'; G.state='paused'; }
+  document.getElementById(id).classList.remove('hidden');
+}
+function closePanels(){
+  clearQueuedActions();
+  document.getElementById('collectionScreen').classList.add('hidden');
+  document.getElementById('achScreen').classList.add('hidden');
+  document.getElementById('settingsScreen').classList.add('hidden');
+  rebindingAction=null;
+  if(panelReturn==='playing'&&G.state==='paused')G.state='playing';
+  panelReturn=null;
+}
+function anyPanelOpen(){
+  return !document.getElementById('collectionScreen').classList.contains('hidden')||!document.getElementById('achScreen').classList.contains('hidden')||!document.getElementById('settingsScreen').classList.contains('hidden');
+}
+
+/* ============ TEACHING BANNER (new-move prompts) ============ */
+var teachTimer=null;
+function showTeach(title,text,ms){
+  document.getElementById('teachTitle').textContent=title;
+  document.getElementById('teachText').textContent=text;
+  document.getElementById('teach').style.opacity=1;
+  clearTimeout(teachTimer);
+  if(ms)teachTimer=setTimeout(hideTeach,ms);
+}
+function hideTeach(){ var t=document.getElementById('teach'); if(t)t.style.opacity=0; clearTimeout(teachTimer); }
+function prettyKey(code){
+  return code.replace('Key','').replace('ArrowUp','↑').replace('ArrowDown','↓')
+    .replace('ArrowLeft','←').replace('ArrowRight','→')
+    .replace('ShiftLeft','Shift').replace('ShiftRight','Shift')
+    .replace('Escape','Esc').replace('Space','Space');
+}
+function bindingLabel(action){ return saveData.settings.bindings[action].map(prettyKey).join(' / '); }
+function renderControlsHelp(){
+  var b=saveData.settings.bindings;
+  var h='<b>'+bindingLabel('forward')+' / '+bindingLabel('left')+' / '+bindingLabel('back')+' / '+bindingLabel('right')+'</b> Move &nbsp; <b>'+bindingLabel('jump')+'</b> Jump<br>';
+  h+='<b>'+bindingLabel('slide')+' (hold)</b> Belly Slide<br>';
+  if(G.hasDoubleJump)h+='<b>'+bindingLabel('jump')+' ×2</b> Double Jump (mid-air)<br>';
+  if(G.hasDash)h+='<b>'+bindingLabel('dash')+'</b> Dash<br>';
+  h+='<b>C</b> Collection &nbsp; <b>T</b> Trophies &nbsp; <b>O</b> Settings<br><b>'+bindingLabel('pause')+'</b> Pause &nbsp; <b>R</b> Restart';
+  if(typeof gamepadActive!=='undefined'&&gamepadActive)h+='<br>🎮 Gamepad: left stick move · <b>A</b> Jump · <b>X</b> Dash · <b>Y</b> Slide · <b>Start</b> Pause';
+  document.getElementById('controlsHelp').innerHTML=h;
+}
+
+/* ============ SETTINGS PANEL (M2) ============ */
+function renderSettingsPanel(){
+  var s=saveData.settings;
+  var body=document.getElementById('settingsBody');
+  if(!body)return;
+  var qBtn=function(q,label){ return '<button class="ghostbtn" id="q-'+q+'" style="'+(s.quality===q?'background:#ff8c42;color:#221005;border-color:#ff8c42':'')+'">'+label+'</button>'; };
+  var row=function(action,label){
+    var txt=rebindingAction===action?'Press a key… (Esc cancels)':bindingLabel(action);
+    return '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:6px 0;font-size:13px"><span>'+label+'</span><button class="ghostbtn" id="rebind-'+action+'" style="margin:0;padding:8px 14px;min-height:38px">'+txt+'</button></div>';
+  };
+  body.innerHTML=
+    '<p style="text-align:center">Quality</p><div style="text-align:center">'+qBtn('high','High')+qBtn('medium','Medium')+qBtn('low','Low')+'</div>'+
+    '<p style="text-align:center;margin-top:14px">Render scale <b id="scaleVal">'+Math.round(s.renderScale*100)+'%</b></p>'+
+    '<input type="range" id="setScale" min="50" max="100" value="'+Math.round(s.renderScale*100)+'" style="width:100%">'+
+    '<p style="text-align:center;margin-top:14px">Music volume <b id="musicVal">'+Math.round(s.musicVol*100)+'%</b> &nbsp;·&nbsp; SFX volume <b id="sfxVal">'+Math.round(s.sfxVol*100)+'%</b></p>'+
+    '<input type="range" id="setMusic" min="0" max="100" value="'+Math.round(s.musicVol*100)+'" style="width:100%">'+
+    '<input type="range" id="setSfx" min="0" max="100" value="'+Math.round(s.sfxVol*100)+'" style="width:100%">'+
+    '<div style="margin-top:12px;font-size:13.5px;line-height:2">'+
+    '<label><input type="checkbox" id="setMute"'+(s.muted?' checked':'')+'> Mute all audio</label><br>'+
+    '<label><input type="checkbox" id="setShake"'+(s.reduceShake?' checked':'')+'> Reduce screen shake</label><br>'+
+    '<label><input type="checkbox" id="setFlash"'+(s.reduceFlash?' checked':'')+'> Reduce hurt flash</label></div>'+
+    '<p style="text-align:center;margin-top:14px">Controls — click a binding, then press a key</p>'+
+    row('forward','Move forward')+row('back','Move back')+row('left','Move left')+row('right','Move right')+
+    row('jump','Jump')+row('dash','Dash')+row('slide','Belly slide')+row('pause','Pause')+
+    '<p style="text-align:center;font-size:12px;color:#cfc4ee">Collection (C), Trophies (T) and Restart (R) are fixed keys.</p>'+
+    '<div style="text-align:center"><button class="ghostbtn" id="fullscreenBtn">⛶ Fullscreen</button></div>'+
+    '<p style="text-align:center;font-size:12px;color:#cfc4ee">Saves live on this device (localStorage “penguinPeaksSaveV1”; desktop: the app’s userData folder). No account, no network.</p>';
+  var wire=function(id,ev,fn){ var el=document.getElementById(id); if(el)el.addEventListener(ev,fn); };
+  ['high','medium','low'].forEach(function(q){
+    wire('q-'+q,'click',function(){ saveData.settings.quality=q; persist(); applySettings(); });
+  });
+  wire('setScale','input',function(e){ saveData.settings.renderScale=e.target.value/100; persist(); applySettings(); });
+  wire('setMusic','input',function(e){ saveData.settings.musicVol=e.target.value/100; persist(); applySettings(); });
+  wire('setSfx','input',function(e){ saveData.settings.sfxVol=e.target.value/100; persist(); applySettings(); });
+  wire('setMute','change',function(e){ saveData.settings.muted=!!e.target.checked; persist(); applySettings(); });
+  wire('setShake','change',function(e){ saveData.settings.reduceShake=!!e.target.checked; persist(); applySettings(); });
+  wire('setFlash','change',function(e){ saveData.settings.reduceFlash=!!e.target.checked; persist(); applySettings(); });
+  ['forward','back','left','right','jump','dash','slide','pause'].forEach(function(a){
+    wire('rebind-'+a,'click',function(){ audio(); startRebind(a); });
+  });
+  wire('fullscreenBtn','click',function(){
+    try{
+      if(document.documentElement&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen();
+      else if(document.documentElement&&document.documentElement.webkitRequestFullscreen)document.documentElement.webkitRequestFullscreen();
+    }catch(e){}
+  });
 }
 
 /* ============ INPUT ============ */
-var keyMap={KeyW:'forward',ArrowUp:'forward',KeyS:'back',ArrowDown:'back',KeyA:'left',ArrowLeft:'left',KeyD:'right',ArrowRight:'right'};
+/* M2: keyMap is rebuilt from the (remappable) saved bindings, not a
+   fixed literal — PP-03's per-source tracking still applies on top.
+   actionCodes is the set of edge-action codes used by the PP-04 repeat
+   guard; it is rebuilt with the bindings. */
+var keyMap={};
+var actionCodes={};
+var rebindingAction=null;
+function isBinding(action,code){ return saveData.settings.bindings[action].indexOf(code)>=0; }
+function rebuildKeyMap(){
+  keyMap={}; actionCodes={};
+  ['forward','back','left','right'].forEach(function(dir){
+    saveData.settings.bindings[dir].forEach(function(code){ keyMap[code]=dir; });
+  });
+  ['jump','dash','slide','pause'].forEach(function(a){
+    saveData.settings.bindings[a].forEach(function(code){ actionCodes[code]=1; });
+  });
+  ['KeyC','KeyT','KeyR','KeyO','Enter'].forEach(function(code){ actionCodes[code]=1; });
+}
+function setBinding(action,code){
+  saveData.settings.bindings[action]=[code];
+  persist(); rebuildKeyMap(); renderControlsHelp(); renderSettingsPanel();
+}
+function startRebind(action){ rebindingAction=action; renderSettingsPanel(); }
+/* M2: apply the saved settings to the renderer and the UI. Quality
+   presets: high = full pixel ratio + shadows + snow; medium = 0.75x
+   pixel ratio + shadows + snow; low = 0.5x + no shadows + no snow. */
+function applySettings(){
+  var s=saveData.settings;
+  var pr={high:1,medium:0.75,low:0.5}[s.quality]||1;
+  try{ renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2)*pr*s.renderScale); }catch(e){}
+  try{ renderer.shadowMap.enabled=(s.quality!=='low'); }catch(e){}
+  try{ snow.visible=(s.quality!=='low'); }catch(e){}
+  try{ if(windGain)windGain.gain.value=0.05*s.musicVol; }catch(e){}
+  rebuildKeyMap();
+  renderControlsHelp();
+  renderSettingsPanel();
+}
 document.addEventListener('keydown',function(e){
-  if(keyMap[e.code]){ keys[keyMap[e.code]]=true; e.preventDefault(); }
-  if(e.code==='Space'){ jumpQueued=true; audio(); e.preventDefault(); }
+  /* M2: remap capture — while a binding is being re-bound, the next
+     non-repeat key becomes the new binding (Esc cancels). */
+  if(rebindingAction){
+    e.preventDefault();
+    if(e.code==='Escape'){ rebindingAction=null; renderSettingsPanel(); return; }
+    if(!e.repeat){ setBinding(rebindingAction,e.code); rebindingAction=null; }
+    return;
+  }
+  /* PP-04: rising-edge actions only. OS key auto-repeat must not re-fire
+     pause, jump, dash, restart or modal toggles (a held P used to resume
+     the game; a held Space used to spend the double jump). Movement keys
+     are level-based (activeCodes), so repeats are harmless there. Jump
+     buffering and coyote time are untouched — only the repeat edge is cut. */
+  if(e.repeat){
+    if(actionCodes[e.code])return;
+  }
+  if(keyMap[e.code]){ activeCodes[e.code]=true; recomputeKeys(); e.preventDefault(); }
+  if(isBinding('jump',e.code)){ jumpQueued=true; audio(); e.preventDefault(); }
+  if(isBinding('dash',e.code)){ dashQueued=true; audio(); }
+  if(isBinding('slide',e.code)){ slideHeld=true; audio(); }
+  if(e.code==='KeyC'){ audio(); if(anyPanelOpen())closePanels(); else openPanel('collectionScreen'); }
+  if(e.code==='KeyT'){ audio(); if(anyPanelOpen())closePanels(); else openPanel('achScreen'); }
+  if(e.code==='KeyO'){ audio(); if(anyPanelOpen())closePanels(); else openPanel('settingsScreen'); }
   if(e.code==='KeyR'){ if(G.state==='playing'||G.state==='paused'||G.state==='won'||G.state==='over') resetGame(true); }
-  if(e.code==='KeyP'||e.code==='Escape'){ if(G.state==='playing')pauseGame(); else if(G.state==='paused')resumeGame(); }
-  if((e.code==='Enter'||e.code==='Space')&&G.state==='start'){ startGame(); }
+  if(isBinding('pause',e.code)){ if(anyPanelOpen())closePanels(); else if(G.state==='playing')pauseGame(); else if(G.state==='paused')resumeGame(); }
+  if((e.code==='Enter'||isBinding('jump',e.code))&&G.state==='start'&&!anyPanelOpen()){ startGame(); }
 });
-document.addEventListener('keyup',function(e){ if(keyMap[e.code]){ keys[keyMap[e.code]]=false; e.preventDefault(); } });
+document.addEventListener('keyup',function(e){
+  if(keyMap[e.code]){ delete activeCodes[e.code]; recomputeKeys(); e.preventDefault(); }
+  if(isBinding('slide',e.code)){ slideHeld=false; }
+  /* M2: variable jump height — releasing Space early cuts a rising jump
+     short (vy *= 0.55 while still rising fast), so short hops and full
+     jumps are both deliberate. A held Space still gives the full arc. */
+  if(isBinding('jump',e.code)&&G.vy>3.5){ G.vy*=0.55; }
+});
 document.querySelectorAll('.tbtn[data-k]').forEach(function(b){
   var k=b.getAttribute('data-k');
-  function on(e){ e.preventDefault(); keys[k]=true; audio(); }
-  function off(e){ e.preventDefault(); keys[k]=false; }
+  function on(e){ e.preventDefault(); touchHeld[k]=true; recomputeKeys(); audio(); }
+  function off(e){ e.preventDefault(); touchHeld[k]=false; recomputeKeys(); }
   b.addEventListener('pointerdown',on); b.addEventListener('pointerup',off); b.addEventListener('pointerleave',off); b.addEventListener('pointercancel',off);
 });
+/* M2: gamepad support (Gamepad API). Polled once per rendered frame
+   from loop(): left stick (dead zone 0.25) + D-pad drive the same
+   per-source directions as keyboard/touch (PP-03); A/X/Start/B are
+   edge-triggered (a held button fires exactly once); Y (button 3) is
+   the held belly-slide. Prompts switch to gamepad wording while a pad
+   is connected (see renderControlsHelp). Disconnect recovery is PP-07:
+   the gamepaddisconnected handler clears all input and auto-pauses. */
+var gamepadActive=false;
+var prevPadButtons=[];
+var padSlideHeld=false;
+function pollGamepad(){
+  var pads=[];
+  try{ pads=(navigator.getGamepads?navigator.getGamepads():[])||[]; }catch(e){ pads=[]; }
+  var pad=null;
+  for(var i=0;i<pads.length;i++){ if(pads[i]&&pads[i].connected!==false){ pad=pads[i]; break; } }
+  var wasActive=gamepadActive;
+  gamepadActive=!!pad;
+  if(gamepadActive!==wasActive)renderControlsHelp();
+  if(!pad){
+    gamepadHeld.forward=gamepadHeld.back=gamepadHeld.left=gamepadHeld.right=false;
+    padSlideHeld=false; prevPadButtons=[]; recomputeKeys(); return;
+  }
+  var DZ=0.25;
+  function dz(v){ return Math.abs(v)<DZ?0:v; }
+  var ax=dz(pad.axes[0]||0), ay=dz(pad.axes[1]||0);
+  var b=pad.buttons||[];
+  function pressed(i){ return !!(b[i]&&b[i].pressed); }
+  gamepadHeld.forward=ay<0||pressed(12);
+  gamepadHeld.back=ay>0||pressed(13);
+  gamepadHeld.left=ax<0||pressed(14);
+  gamepadHeld.right=ax>0||pressed(15);
+  padSlideHeld=pressed(3);
+  recomputeKeys();
+  function edge(i){ var now=pressed(i); var was=!!prevPadButtons[i]; prevPadButtons[i]=now; return now&&!was; }
+  if(edge(0)){ /* A: jump / confirm */
+    if(G.state==='playing'){ jumpQueued=true; audio(); }
+    else if(G.state==='start'&&!anyPanelOpen())startGame();
+    else if(G.state==='paused'&&!anyPanelOpen())resumeGame();
+    else if((G.state==='won'||G.state==='over')&&!anyPanelOpen())resetGame(true);
+  }
+  if(edge(2)&&G.state==='playing'){ dashQueued=true; audio(); } /* X: dash */
+  if(edge(9)){ /* Start: pause / resume / close panel */
+    if(anyPanelOpen())closePanels();
+    else if(G.state==='playing')pauseGame();
+    else if(G.state==='paused')resumeGame();
+  }
+  if(edge(1)&&anyPanelOpen())closePanels(); /* B: back — close panel */
+}
+window.addEventListener('gamepadconnected',function(){ pollGamepad(); renderControlsHelp(); toast('🎮 Gamepad connected'); });
+window.addEventListener('gamepaddisconnected',function(){ renderControlsHelp(); });
+/* PP-07: focus loss / input recovery. The old build had no blur or
+   visibilitychange handler, so holding W, Alt+Tabbing, releasing W and
+   coming back left the penguin running on a stuck key. Now every focus
+   loss clears ALL input state (keyboard, touch, gamepad, queued actions),
+   auto-pauses a running game, and requires a deliberate resume — the
+   game never moves again until fresh input arrives. */
+function clearAllInput(){
+  for(var c in activeCodes)delete activeCodes[c];
+  touchHeld.forward=touchHeld.back=touchHeld.left=touchHeld.right=false;
+  gamepadHeld.forward=gamepadHeld.back=gamepadHeld.left=gamepadHeld.right=false;
+  padSlideHeld=false;
+  jumpQueued=false; dashQueued=false;
+  G.jumpBuffer=0; G.coyote=0;
+  recomputeKeys();
+}
+function handleFocusLoss(){
+  clearAllInput();
+  if(G.state==='playing')pauseGame();
+}
+window.addEventListener('blur',handleFocusLoss);
+document.addEventListener('visibilitychange',function(){ if(document.hidden)handleFocusLoss(); });
+window.addEventListener('gamepaddisconnected',function(){ handleFocusLoss(); });
 var jb=document.getElementById('jumpBtn');
 jb.addEventListener('pointerdown',function(e){ e.preventDefault(); jumpQueued=true; audio(); });
+var dbtn=document.getElementById('dashBtn');
+dbtn.addEventListener('pointerdown',function(e){ e.preventDefault(); dashQueued=true; audio(); });
+/* M2: touch belly-slide button (hold). */
+var sbtn=document.getElementById('slideBtn');
+sbtn.addEventListener('pointerdown',function(e){ e.preventDefault(); slideHeld=true; audio(); });
+sbtn.addEventListener('pointerup',function(e){ e.preventDefault(); slideHeld=false; });
+sbtn.addEventListener('pointerleave',function(e){ e.preventDefault(); slideHeld=false; });
+sbtn.addEventListener('pointercancel',function(e){ e.preventDefault(); slideHeld=false; });
+document.getElementById('collBtn').addEventListener('click',function(){ audio(); openPanel('collectionScreen'); });
+document.getElementById('achBtn').addEventListener('click',function(){ audio(); openPanel('achScreen'); });
+document.getElementById('settingsBtn').addEventListener('click',function(){ audio(); openPanel('settingsScreen'); });
+document.getElementById('settingsClose').addEventListener('click',function(){ audio(); closePanels(); });
+document.getElementById('startCollBtn').addEventListener('click',function(){ audio(); openPanel('collectionScreen'); });
+document.getElementById('startAchBtn').addEventListener('click',function(){ audio(); openPanel('achScreen'); });
+document.getElementById('pauseCollBtn').addEventListener('click',function(){ audio(); openPanel('collectionScreen'); });
+document.getElementById('pauseAchBtn').addEventListener('click',function(){ audio(); openPanel('achScreen'); });
+document.getElementById('collClose').addEventListener('click',function(){ audio(); closePanels(); });
+document.getElementById('achClose').addEventListener('click',function(){ audio(); closePanels(); });
 
 document.getElementById('startBtn').addEventListener('click',function(){ audio(); startGame(); });
 document.getElementById('resumeBtn').addEventListener('click',function(){ audio(); resumeGame(); });
@@ -571,38 +1174,153 @@ document.getElementById('pauseBtn').addEventListener('click',function(){ audio()
 renderer.domElement.addEventListener('pointerdown',function(){ audio(); });
 
 /* ============ FLOW ============ */
+/* PP-05: centralize the transient input/physics reset. resetGame() used to
+   omit jumpQueued (and jumpBuffer / coyote / grounded / facing / dash
+   state), so a Space queued before a restart fired a jump on the first
+   step after the reset (vy 10.07). Two levels:
+   - clearQueuedActions(): only things that can FIRE an action after a
+     boundary (queued jump/dash, jump buffer, coyote). Used on pause,
+     resume and panel open/close, where physics state must be preserved.
+   - clearTransientInput(): the full transient reset for restart, respawn
+     and start. Held PHYSICAL keys are NOT cleared anywhere here — a key
+     still held down is live input, not stale input; focus loss (PP-07)
+     is the place that clears those. */
+function clearQueuedActions(){
+  jumpQueued=false; dashQueued=false;
+  G.jumpBuffer=0; G.coyote=0;
+}
+function clearTransientInput(){
+  clearQueuedActions();
+  G.grounded=false; G.airJumps=0;
+  G.dashT=0; G.dashCd=0; G.dashDirX=0; G.dashDirZ=-1;
+  G.sliding=false; G.slideDirX=0; G.slideDirZ=-1; slideHeld=false;
+  G.musicT=0; G.musicStep=0;
+  G.invuln=0; G.facing=0; G.walkPhase=0; G.squash=0; G.stretch=0;
+  G.wasGrounded=true; G.combo=0; G.comboT=0; G._flagWarned=0;
+  G.groundPlat=null;
+}
 function startGame(){
+  clearTransientInput();
   document.getElementById('startScreen').classList.add('hidden');
   G.state='playing'; toast('Go Pebbles! Collect fish and head north to the flag! 🐟',2600);
 }
+/* M2: level select — jump straight into a world already reached in an
+   earlier run (unlockedWorld persists in the save). Worlds 2/3 start
+   at their checkpoint with that world's move already taught. */
+function renderLevelSelect(){
+  var el=document.getElementById('levelSelect');
+  if(!el)return;
+  var names=['','Sunset Shallows','Crab Crossing','Flag Peak'];
+  var html='<div style="font-size:12.5px;color:#cfc4ee;margin-bottom:2px">Or jump straight in:</div>';
+  for(var w=1;w<=3;w++){
+    var locked=w>saveData.unlockedWorld;
+    html+='<button class="ghostbtn" id="lvlBtn'+w+'" style="margin:6px 4px 0;'+(locked?'opacity:.45':'')+'"'+(locked?' disabled':'')+'>'+(locked?'🔒 ':'')+'World '+w+' — '+names[w]+'</button>';
+  }
+  el.innerHTML=html;
+  for(var w2=1;w2<=3;w2++){
+    (function(w){
+      var b=document.getElementById('lvlBtn'+w);
+      if(b)b.addEventListener('click',function(){ audio(); startGameAtWorld(w); });
+    })(w2);
+  }
+}
+function startGameAtWorld(n){
+  if(n>saveData.unlockedWorld)return;
+  resetGame(false);
+  if(n>=2){
+    checkpoints[0].active=true;
+    checkpoints[0].visual.flag.material.color.set(0x2ecc71);
+    if(checkpoints[0].beam){ checkpoints[0].beam.material.color.set(0x2ecc71); checkpoints[0].beam.material.opacity=0.3; }
+    G.spawn.set(0,1.2,-32); G.hasDoubleJump=true; G.airJumps=1; G.level=2;
+  }
+  if(n>=3){
+    checkpoints[1].active=true;
+    checkpoints[1].visual.flag.material.color.set(0x2ecc71);
+    if(checkpoints[1].beam){ checkpoints[1].beam.material.color.set(0x2ecc71); checkpoints[1].beam.material.opacity=0.3; }
+    G.spawn.set(0,3.1,-75); G.hasDash=true; G.level=3;
+  }
+  G.pos.copy(G.spawn);
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('dashBtn').classList.toggle('show',G.hasDash);
+  renderControlsHelp();
+  G.state='playing';
+  toast('Go Pebbles! World '+n+' — '+['','Sunset Shallows','Crab Crossing','Flag Peak'][n]+'!',2600);
+  updateHUD();
+}
 function pauseGame(){
+  clearQueuedActions();
   G.state='paused';
   document.getElementById('pauseFish').textContent=G.fish;
   document.getElementById('pauseTime').textContent=fmtTime(G.time);
+  document.getElementById('pauseColl').textContent=totalBest()+'/24 · '+collPct()+'%';
   document.getElementById('pauseScreen').classList.remove('hidden');
 }
-function resumeGame(){ G.state='playing'; document.getElementById('pauseScreen').classList.add('hidden'); }
-function winGame(){
-  G.state='won'; sfxWin();
-  document.getElementById('winTitle').textContent='🏆 You Win!';
-  document.getElementById('winText').textContent='Pebbles reached the flag with a full belly of fish. Sunset well earned!';
+function resumeGame(){ clearQueuedActions(); G.state='playing'; document.getElementById('pauseScreen').classList.add('hidden'); }
+/* Medals — real, achievable targets only: Fish Bronze 20 (the win itself),
+   Silver 22, Gold 24. Time Gold 2:00, Silver 3:00. Near-miss lines name the
+   exact missing count so the player knows precisely what to chase. */
+var GOLD_FISH=24, SILVER_FISH=22, GOLD_TIME=120, SILVER_TIME=180;
+function medalLines(){
+  /* PP-10: every time line shows the finish in tenths and names the
+     medal actually earned plus the next goal with its exact shortfall,
+     so "finished 2:00" can never appear next to "1 second short". */
+  var lines=[];
+  if(G.fish>=GOLD_FISH)lines.push('🥇 Gold medal: all 24 fish collected!');
+  else if(G.fish>=SILVER_FISH)lines.push('Gold medal: 24 fish — you collected '+G.fish+'. '+(GOLD_FISH-G.fish)+' fish short!');
+  else lines.push('Silver medal: 22 fish — you collected '+G.fish+'. '+(SILVER_FISH-G.fish)+' fish short!');
+  if(G.time<=GOLD_TIME)lines.push('🥇 Gold time: 2:00.0 — you finished in '+fmtTime1(G.time)+'!');
+  else if(G.time<=SILVER_TIME)lines.push('🥈 Silver time: 3:00.0 — you finished in '+fmtTime1(G.time)+'. Gold time 2:00.0 was '+(G.time-GOLD_TIME).toFixed(1)+' '+secWord(G.time-GOLD_TIME)+' away!');
+  else lines.push('Silver time 3:00.0 — you finished '+fmtTime1(G.time)+'. '+(G.time-SILVER_TIME).toFixed(1)+' '+secWord(G.time-SILVER_TIME)+' short of silver!');
+  return lines;
+}
+function fillEndScreen(){
   document.getElementById('winFish').textContent=G.fish;
   document.getElementById('winTime').textContent=fmtTime(G.time);
   document.getElementById('winHearts').textContent=G.hearts;
+  document.getElementById('winCollText').textContent=totalBest()+'/24 · '+collPct()+'%';
+  document.getElementById('winCollBar').style.width=collPct()+'%';
+}
+function winGame(){
+  G.state='won'; sfxWin();
+  saveData.wins++;
+  if(!saveData.bestTime||G.time<saveData.bestTime)saveData.bestTime=G.time; /* PP-10: store the precise time, not a rounded one */
+  persist();
+  unlockAch('ACH_FIRST_WIN');
+  if(G.hearts>=3)unlockAch('ACH_FULL_HEARTS');
+  if(!G.tookDamage)unlockAch('ACH_NO_DAMAGE');
+  if(G.time<=GOLD_TIME)unlockAch('ACH_SPEEDY');
+  document.getElementById('winTitle').textContent='🏆 You Win!';
+  document.getElementById('winText').textContent='Pebbles reached the flag with a full belly of fish. Sunset well earned!';
+  document.getElementById('winMedals').innerHTML=medalLines().map(function(l){ return '<div class="medalLine">'+l+'</div>'; }).join('');
+  fillEndScreen();
   document.getElementById('winScreen').classList.remove('hidden');
+  updateHUD();
 }
 function gameOver(){
   G.state='over'; sfxHurt();
   document.getElementById('winTitle').textContent='💔 Out of Hearts';
   document.getElementById('winText').textContent='The crabs and the cold got the better of Pebbles this time. Shake off the snow and try again!';
-  document.getElementById('winFish').textContent=G.fish;
-  document.getElementById('winTime').textContent=fmtTime(G.time);
+  var lines=[];
+  if(G.fish<20)lines.push('You needed 20 fish to make the flag count — you collected '+G.fish+'. '+(20-G.fish)+' fish short!');
+  else lines.push('You had all 20 fish — only the flag at the far peak was left!');
+  lines.push('You reached World '+G.level+' of 3'+(G.level<3?' — World '+(G.level+1)+' was next.':' — the final world. So close!'));
+  document.getElementById('winMedals').innerHTML=lines.map(function(l){ return '<div class="medalLine">'+l+'</div>'; }).join('');
+  fillEndScreen();
   document.getElementById('winHearts').textContent=0;
   document.getElementById('winScreen').classList.remove('hidden');
+  updateHUD();
 }
 function resetGame(startPlaying){
+  clearTransientInput();
   G.fish=0; G.hearts=3; G.time=0; G.level=1; G.invuln=0; G.vy=0; G.vel.set(0,0,0);
+  G.gameClock=0; G.stallSeconds=0; G._acc=0; /* PP-02: fresh run, fresh clock */
   G.squash=0; G.stretch=0; G.combo=0; G.comboT=0; G.wasGrounded=true; G.groundPlat=null;
+  G.hasDoubleJump=false; G.hasDash=false; G.airJumps=0; G.dashT=0; G.dashCd=0;
+  G.tookDamage=false; G.zoneFish=[0,0,0]; dashQueued=false; hideTeach(); renderControlsHelp();
+  document.getElementById('dashBtn').classList.remove('show');
+  document.getElementById('collectionScreen').classList.add('hidden');
+  document.getElementById('achScreen').classList.add('hidden');
+  panelReturn=null;
   G.spawn.set(0,0,2); G.pos.copy(G.spawn);
   fishes.forEach(function(f){ f.taken=false; f.mesh.visible=true; });
   checkpoints.forEach(function(c){ c.active=false; c.visual.flag.material.color.set(0x888899); if(c.beam){ c.beam.material.color.set(0x9fb7c9); c.beam.material.opacity=0.13; } });
@@ -614,11 +1332,11 @@ function resetGame(startPlaying){
 }
 function hurtPlayer(fromX,fromZ,knock){
   if(G.invuln>0||G.state!=='playing')return;
-  G.hearts--; G.invuln=1.2; sfxHurt(); updateHUD();
-  shake=Math.max(shake,0.3);
+  G.hearts--; G.tookDamage=true; G.invuln=1.2; sfxHurt(); updateHUD();
+  if(!saveData.settings.reduceShake)shake=Math.max(shake,0.3);
   spawnBurst(G.pos.x,G.pos.y+1,G.pos.z,0xff5566,10,2.2,2.4,-2);
   var hf=document.getElementById('hurtFlash');
-  if(hf){ hf.style.transition='none'; hf.style.opacity=0.9; requestAnimationFrame(function(){ hf.style.transition='opacity .45s ease-out'; hf.style.opacity=0; }); }
+  if(hf){ hf.style.transition='none'; hf.style.opacity=saveData.settings.reduceFlash?0.25:0.9; requestAnimationFrame(function(){ hf.style.transition='opacity .45s ease-out'; hf.style.opacity=0; }); }
   if(knock){
     var dx=G.pos.x-fromX, dz=G.pos.z-fromZ; var len=Math.hypot(dx,dz)||1;
     G.vel.x=(dx/len)*8; G.vel.z=(dz/len)*8; G.vy=5.5;
@@ -627,11 +1345,17 @@ function hurtPlayer(fromX,fromZ,knock){
   if(G.hearts<=0)gameOver();
 }
 function respawn(){
+  clearTransientInput();
   G.pos.copy(G.spawn); G.vy=0; G.vel.set(0,0,0); G.invuln=1.2; G.groundPlat=null;
 }
 
 /* ============ PHYSICS / UPDATE ============ */
+/* M2 movement tuning: slightly longer coyote time + jump buffer (0.13 ->
+   0.16 s) and stronger air control (10 -> 14) — the audit asked for
+   tuned acceleration, air control, jump arcs and coyote time, and the
+   fixed-timestep physics makes these values frame-rate independent. */
 var SPEED=7.2, GRAV=26, JUMP=10.5;
+var COYOTE_TIME=0.16, JUMP_BUFFER=0.16, AIR_ACCEL=14;
 function platformAt(x,z,footY){
   var best=null;
   for(var i=0;i<platforms.length;i++){
@@ -648,19 +1372,30 @@ var camTarget=new THREE.Vector3();
 var shake=0;
 
 function step(dt){
-  /* moving platforms */
-  platforms.forEach(function(p){
-    var ox=p.x, oz=p.z, ot=p.top;
-    if(p.moveAxis==='x'){ p.x=p.baseX+Math.sin(performance.now()*0.001*p.moveSpeed+p.phase)*p.moveRange; }
-    if(p.moveAxis==='z'){ p.z=p.baseZ+Math.sin(performance.now()*0.001*p.moveSpeed+p.phase)*p.moveRange; }
-    if(p.moveAxis==='y'){ p.top=p.baseTop+Math.sin(performance.now()*0.001*p.moveSpeed+p.phase)*p.moveRange; }
-    p.dx=p.x-ox; p.dz=p.z-oz; p.dtop=p.top-ot;
-    p.mesh.position.x=p.x; p.mesh.position.z=p.z; p.mesh.position.y=p.top-1.1;
-    if(p.tip){ p.tip.position.x=p.x; p.tip.position.z=p.z; p.tip.position.y=p.top-3.5; }
-  });
+  /* PP-02/PP-06: cosmetic time always advances; the gameplay clock (and
+     everything driven by it) advances only while actually playing. */
+  G.cosmeticT+=dt;
+  var playing=(G.state==='playing');
+  if(playing)G.gameClock+=dt;
+  /* moving platforms — gameplay, frozen while paused / in a blocking panel */
+  if(playing){
+    platforms.forEach(function(p){
+      var ox=p.x, oz=p.z, ot=p.top;
+      if(p.moveAxis==='x'){ p.x=p.baseX+Math.sin(G.gameClock*p.moveSpeed+p.phase)*p.moveRange; }
+      if(p.moveAxis==='z'){ p.z=p.baseZ+Math.sin(G.gameClock*p.moveSpeed+p.phase)*p.moveRange; }
+      if(p.moveAxis==='y'){ p.top=p.baseTop+Math.sin(G.gameClock*p.moveSpeed+p.phase)*p.moveRange; }
+      p.dx=p.x-ox; p.dz=p.z-oz; p.dtop=p.top-ot;
+      p.mesh.position.x=p.x; p.mesh.position.z=p.z; p.mesh.position.y=p.top-1.1;
+      if(p.tip){ p.tip.position.x=p.x; p.tip.position.z=p.z; p.tip.position.y=p.top-3.5; }
+    });
+  }
 
   if(G.state==='playing'){
     G.time+=dt;
+    /* M2: soundtrack advances on the fixed timestep, only while playing
+       (pause silences the melody; the wind loop keeps its gain). */
+    G.musicT+=dt;
+    if(G.musicT>=0.42){ G.musicT-=0.42; musicTick(); }
     /* D2: carry the penguin with a moving platform it stands on, EVERY frame,
        not only on frames where it re-grounds. At 1-3 fps a platform moves
        ~1.4 units/frame, far past the old 0.28 margin, and the penguin fell off
@@ -675,17 +1410,87 @@ function step(dt){
     var moving=(ix!==0||iz!==0);
     if(moving){ var l=Math.hypot(ix,iz); ix/=l; iz/=l; G.facing=Math.atan2(ix,iz); } /* model faces local +Z: atan2(ix,iz) points the beak along travel */
     var targetVX=ix*SPEED, targetVZ=iz*SPEED;
-    var accel=G.grounded?22:10;
-    G.vel.x+=(targetVX-G.vel.x)*Math.min(1,accel*dt);
-    G.vel.z+=(targetVZ-G.vel.z)*Math.min(1,accel*dt);
-    if(!moving&&G.grounded){ G.vel.x*=Math.max(0,1-14*dt); G.vel.z*=Math.max(0,1-14*dt); }
+    if(!G.sliding){
+      var accel=G.grounded?22:AIR_ACCEL;
+      G.vel.x+=(targetVX-G.vel.x)*Math.min(1,accel*dt);
+      G.vel.z+=(targetVZ-G.vel.z)*Math.min(1,accel*dt);
+      if(!moving&&G.grounded){ G.vel.x*=Math.max(0,1-14*dt); G.vel.z*=Math.max(0,1-14*dt); }
+    }
 
     /* jumping: buffer + coyote time */
-    if(jumpQueued){ G.jumpBuffer=0.13; jumpQueued=false; } else if(G.jumpBuffer>0)G.jumpBuffer-=dt;
-    if(G.grounded)G.coyote=0.13; else if(G.coyote>0)G.coyote-=dt;
-    if(G.jumpBuffer>0&&G.coyote>0){ G.vy=JUMP; G.grounded=false; G.coyote=0; G.jumpBuffer=0; G.stretch=1; sfxJump(); spawnBurst(G.pos.x,G.pos.y+0.15,G.pos.z,0xffffff,5,1.1,0.7,-1.5); }
+    if(jumpQueued){ G.jumpBuffer=JUMP_BUFFER; jumpQueued=false; } else if(G.jumpBuffer>0)G.jumpBuffer-=dt;
+    if(G.grounded){ G.coyote=COYOTE_TIME; G.airJumps=G.hasDoubleJump?1:0; } else if(G.coyote>0)G.coyote-=dt;
+    if(G.jumpBuffer>0&&G.coyote>0){ G.vy=JUMP; G.grounded=false; G.coyote=0; G.jumpBuffer=0; G.stretch=1; sfxJump(); spawnBurst(G.pos.x,G.pos.y+0.15,G.pos.z,0xffffff,5,1.1,0.7,-1.5);
+      /* M2: jumping out of a belly slide keeps the slide momentum as a
+         small forward hop boost, then the slide ends. */
+      if(G.sliding){ G.vel.x+=G.slideDirX*2.5; G.vel.z+=G.slideDirZ*2.5; G.sliding=false; } }
+    else if(G.jumpBuffer>0&&!G.grounded&&G.hasDoubleJump&&G.airJumps>0){
+      /* World 2 move: double jump — a second jump pressed mid-air */
+      G.vy=JUMP*0.94; G.airJumps--; G.jumpBuffer=0; G.stretch=1;
+      tone(420,0.2,'square',0.09,0,760);
+      spawnBurst(G.pos.x,G.pos.y+0.3,G.pos.z,0x7df0e4,10,1.8,1.2,-1);
+      unlockAch('ACH_DOUBLE_JUMP'); hideTeach();
+    }
+
+    /* dash (World 3 move): a short horizontal burst in the input/facing direction */
+    if(G.dashCd>0)G.dashCd-=dt;
+    if(dashQueued){
+      dashQueued=false;
+      if(G.hasDash&&G.dashCd<=0&&G.dashT<=0){
+        var ddx=ix, ddz=iz;
+        if(ddx===0&&ddz===0){ ddx=Math.sin(G.facing); ddz=Math.cos(G.facing); }
+        var dl=Math.hypot(ddx,ddz)||1;
+        G.dashDirX=ddx/dl; G.dashDirZ=ddz/dl;
+        G.dashT=0.18; G.dashCd=0.9; G.facing=Math.atan2(G.dashDirX,G.dashDirZ);
+        tone(700,0.18,'sine',0.14,0,180);
+        spawnBurst(G.pos.x,G.pos.y+0.8,G.pos.z,0x7df0e4,8,1.2,1,-0.5);
+        unlockAch('ACH_DASH'); hideTeach();
+      }
+    }
+    if(G.dashT>0){
+      G.dashT-=dt;
+      G.vel.x=G.dashDirX*25; G.vel.z=G.dashDirZ*25;
+      spawnBurst(G.pos.x,G.pos.y+0.7,G.pos.z,0xbffcff,2,0.5,0.4,0);
+    }
+
+    /* M2 belly-slide prototype: hold X while grounded and moving to drop
+       onto the belly. The slide accelerates toward 11 u/s (faster than
+       the 7.2 run), steers slowly toward the input direction, and brakes
+       hard when the player pushes back against the slide direction.
+       It ends when X is released, speed falls below 2.5, the penguin
+       leaves the ground, or the player jumps out of it (hop boost above).
+       Dash and slide are mutually exclusive (dashT check on engage). */
+    var slideInput=slideHeld||padSlideHeld; /* M2: keyboard X or gamepad Y */
+    if(slideInput&&G.grounded&&!G.sliding&&G.dashT<=0&&Math.hypot(G.vel.x,G.vel.z)>2.5){
+      G.sliding=true;
+      var svx=G.vel.x, svz=G.vel.z; var sl=Math.hypot(svx,svz)||1;
+      G.slideDirX=svx/sl; G.slideDirZ=svz/sl;
+      tone(300,0.25,'sine',0.10,0,90);
+      spawnBurst(G.pos.x,G.pos.y+0.2,G.pos.z,0xffffff,6,1.4,0.9,-1);
+    }
+    if(G.sliding){
+      if(!G.grounded||!slideInput){ G.sliding=false; }
+      else{
+        var tSX=G.slideDirX*11, tSZ=G.slideDirZ*11;
+        G.vel.x+=(tSX-G.vel.x)*Math.min(1,3.5*dt);
+        G.vel.z+=(tSZ-G.vel.z)*Math.min(1,3.5*dt);
+        if(moving){
+          G.slideDirX+=ix*1.6*dt; G.slideDirZ+=iz*1.6*dt;
+          var dl=Math.hypot(G.slideDirX,G.slideDirZ)||1;
+          G.slideDirX/=dl; G.slideDirZ/=dl;
+          G.facing=Math.atan2(G.slideDirX,G.slideDirZ);
+        }
+        var backDot=ix*G.slideDirX+iz*G.slideDirZ;
+        if(backDot<-0.5){
+          G.vel.x*=Math.max(0,1-6*dt); G.vel.z*=Math.max(0,1-6*dt);
+          if(Math.hypot(G.vel.x,G.vel.z)<2.5)G.sliding=false;
+        }
+        if(Math.random()<0.6)spawnBurst(G.pos.x,G.pos.y+0.15,G.pos.z,0xffffff,2,1.2,0.8,-1);
+      }
+    }
 
     G.vy-=GRAV*dt; if(G.vy<-22)G.vy=-22;
+    if(G.dashT>0)G.vy=0; /* gravity is suspended during the dash burst */
     var prevY=G.pos.y;
     G.pos.x+=G.vel.x*dt; G.pos.z+=G.vel.z*dt; G.pos.y+=G.vy*dt;
 
@@ -703,7 +1508,7 @@ function step(dt){
         G.squash=Math.min(1,(fallSpeed-3)/9);
         spawnBurst(G.pos.x,G.pos.y+0.12,G.pos.z,0xffffff,9,1.9,0.8,-1.2);
         tone(150,0.12,'sine',0.12,0,60);
-        if(fallSpeed>13)shake=Math.max(shake,0.12);
+        if(fallSpeed>13&&!saveData.settings.reduceShake)shake=Math.max(shake,0.12);
       }
     } else { G.groundPlat=null; }
     /* side push-out for tall steps: if embedded below a top, lift check handled by fall */
@@ -712,7 +1517,7 @@ function step(dt){
 
     /* fell off the world */
     if(G.pos.y<-9){
-      G.hearts--; sfxFall(); updateHUD();
+      G.hearts--; G.tookDamage=true; sfxFall(); updateHUD();
       if(G.hearts<=0){ gameOver(); } else { toast('Splash! Back to the checkpoint. −1 ♥',1800); respawn(); }
     }
 
@@ -726,7 +1531,7 @@ function step(dt){
     /* enemies */
     enemies.forEach(function(e){
       var d=Math.hypot(G.pos.x-e.mesh.position.x,G.pos.z-e.mesh.position.z);
-      if(d<1.05&&Math.abs(G.pos.y-e.top)<1.4){ hurtPlayer(e.mesh.position.x,e.mesh.position.z,true); shake=0.25; }
+      if(d<1.05&&Math.abs(G.pos.y-e.top)<1.4){ hurtPlayer(e.mesh.position.x,e.mesh.position.z,true); if(!saveData.settings.reduceShake)shake=0.25; }
     });
     /* fish pickup */
     fishes.forEach(function(f){
@@ -735,6 +1540,13 @@ function step(dt){
       var dy=Math.abs((G.pos.y+0.9)-f.mesh.position.y);
       if(d<0.95&&dy<1.3){
         f.taken=true; f.mesh.visible=false; G.fish++;
+        G.zoneFish[f.zone-1]++; saveData.lifetimeFish++;
+        if(G.zoneFish[f.zone-1]>(saveData.bestZone[f.zone-1]||0))saveData.bestZone[f.zone-1]=G.zoneFish[f.zone-1];
+        persist();
+        unlockAch('ACH_FIRST_CATCH');
+        if(saveData.lifetimeFish>=50)unlockAch('ACH_FISH_50');
+        if(G.zoneFish[f.zone-1]>=8)unlockAch('ACH_WORLD_FEAST');
+        if(G.fish>=24)unlockAch('ACH_COMPLETIONIST');
         if(G.time-G.comboT<1.4)G.combo++; else G.combo=0; G.comboT=G.time;
         sfxCoin(G.combo); updateHUD();
         spawnBurst(f.mesh.position.x,f.mesh.position.y,f.mesh.position.z,0xffd166,12,1.7,2.4,-2.5);
@@ -745,22 +1557,45 @@ function step(dt){
     checkpoints.forEach(function(c){
       if(!c.active&&Math.hypot(G.pos.x-c.pos.x,G.pos.z-c.pos.z)<3.4&&Math.abs(G.pos.y-c.top)<1.5){
         c.active=true; G.spawn.copy(c.pos);
+        /* M2: reaching a checkpoint unlocks its world in level select. */
+        if(c.id===1&&saveData.unlockedWorld<2){ saveData.unlockedWorld=2; persist(); renderLevelSelect(); }
+        if(c.id===2&&saveData.unlockedWorld<3){ saveData.unlockedWorld=3; persist(); renderLevelSelect(); }
         c.visual.flag.material.color.set(0x2ecc71);
         if(c.beam){ c.beam.material.color.set(0x2ecc71); c.beam.material.opacity=0.3; }
         spawnBurst(c.pos.x,c.top+1.2,c.pos.z,0x2ecc71,16,2.4,3,-2);
         sfxCheckpoint(); G.level=c.id+1; updateHUD();
         toast('✅ Checkpoint '+c.id+' saved! Level '+G.level+' begins',2200);
+        if(c.id===1&&!G.hasDoubleJump){
+          /* Sawtooth: World 2 teaches DOUBLE JUMP here, on this safe island,
+             before the high route ahead needs it. */
+          G.hasDoubleJump=true; G.airJumps=1; renderControlsHelp();
+          showTeach('🦘 NEW MOVE — Double Jump!','You are on a safe island — practise here: jump, then press Space again while mid-air to jump a second time. Ahead in Crab Crossing, a high ledge route holds a bonus fish only a double jump can reach!',0);
+        }
+        if(c.id===2&&!G.hasDash){
+          /* Sawtooth: World 3 teaches DASH here, on this safe island, before
+             the wide gap in Flag Peak needs it. */
+          G.hasDash=true; renderControlsHelp();
+          document.getElementById('dashBtn').classList.add('show');
+          showTeach('💨 NEW MOVE — Dash!','You are on a safe island — practise here: press Shift (or K) for a short burst of speed in the direction you are moving. Ahead in Flag Peak, a wide gap west of the first platform is too far to jump — dash across it to reach a bonus fish!',0);
+        }
       }
     });
     /* level from z if checkpoint skipped visually */
     /* goal */
     if(Math.hypot(G.pos.x-flagPos.x,G.pos.z-flagPos.z)<3.2&&Math.abs(G.pos.y-flagPos.y)<1.6){
       if(G.fish>=20){ winGame(); }
-      else if(!G._flagWarned||performance.now()-G._flagWarned>3000){
-        G._flagWarned=performance.now();
+      else if(!G._flagWarned||G.gameClock-G._flagWarned>3){
+        G._flagWarned=G.gameClock;
         toast('🏁 You need '+(20-G.fish)+' more fish before the flag counts!',2200);
       }
     }
+    /* PP-02/PP-06: enemy patrol is gameplay — frozen while paused. */
+    enemies.forEach(function(e){
+      e.t+=dt*e.speed;
+      var off=Math.sin(e.t)*e.range;
+      if(e.axis==='x'){ e.mesh.position.x=e.cx+off; e.mesh.position.z=e.cz; e.mesh.rotation.y=Math.cos(e.t)>0?Math.PI/2:-Math.PI/2; }
+      else { e.mesh.position.z=e.cz+off; e.mesh.position.x=e.cx; e.mesh.rotation.y=Math.cos(e.t)>0?0:Math.PI; }
+    });
     /* walk anim phase */
     if(moving&&G.grounded)G.walkPhase+=dt*11; else G.walkPhase*=0.9;
     G.wasGrounded=G.grounded;
@@ -768,15 +1603,13 @@ function step(dt){
   }
 
   /* ---- ambient animation (all states) ---- */
-  var t=performance.now()*0.001;
+  var t=G.cosmeticT; /* PP-02: look-only clock; gameplay never reads wall time */
   fishes.forEach(function(f){ if(!f.taken){ f.mesh.rotation.y=t*2.4+f.phase; f.mesh.position.y=f.baseY+Math.sin(t*2.5+f.phase)*0.14; if(f.glow){ var gs=1.5+Math.sin(t*3.2+f.phase)*0.3; f.glow.scale.set(gs,gs,1); } } });
   updateParticles(dt);
   goalBeam.material.opacity=0.2+Math.sin(t*2.2)*0.07;
   enemies.forEach(function(e){
-    e.t+=dt*e.speed;
-    var off=Math.sin(e.t)*e.range;
-    if(e.axis==='x'){ e.mesh.position.x=e.cx+off; e.mesh.position.z=e.cz; e.mesh.rotation.y=off>0?0:0; e.mesh.rotation.y=Math.cos(e.t)>0?Math.PI/2:-Math.PI/2; }
-    else { e.mesh.position.z=e.cz+off; e.mesh.position.x=e.cx; e.mesh.rotation.y=Math.cos(e.t)>0?0:Math.PI; }
+    /* PP-06: patrol position is gameplay (updated in the playing block
+       above); only the cosmetic bob runs here, in every state. */
     e.mesh.position.y=e.top+Math.abs(Math.sin(t*7+e.cx))*0.05;
   });
   checkpoints.forEach(function(c){ waveFlag(c.visual.flag,t); });
@@ -794,16 +1627,21 @@ function step(dt){
   var dr=targetRot-penguin.rotation.y;
   while(dr>Math.PI)dr-=Math.PI*2; while(dr<-Math.PI)dr+=Math.PI*2;
   penguin.rotation.y+=dr*Math.min(1,14*dt);
+  /* M2: belly-slide pose — pitch the body forward onto the belly and
+     flatten slightly; flippers spread (set below). */
+  penguin.rotation.x=G.sliding?0.6:0;
   var ud=penguin.userData;
   /* squash on landing, stretch on jump */
   G.squash=Math.max(0,G.squash-dt*4.5); G.stretch=Math.max(0,G.stretch-dt*4.5);
   var sq=G.squash, st=G.stretch;
   penguin.scale.set(1+0.26*sq-0.09*st,1-0.30*sq+0.16*st,1+0.26*sq-0.09*st);
+  if(G.sliding)penguin.scale.y*=0.82;
   var runAmt=(G.grounded&&(Math.abs(G.vel.x)>0.6||Math.abs(G.vel.z)>0.6))?1:0;
   var flap=Math.sin(G.walkPhase)*0.75*runAmt;
   ud.flippers[0].rotation.z=0.25+flap; ud.flippers[1].rotation.z=-0.25-flap;
   ud.flippers[0].rotation.x=Math.sin(G.walkPhase)*0.4*runAmt; ud.flippers[1].rotation.x=-Math.sin(G.walkPhase)*0.4*runAmt;
   if(!G.grounded){ ud.flippers[0].rotation.z=1.9; ud.flippers[1].rotation.z=-1.9; }
+  if(G.sliding){ ud.flippers[0].rotation.z=1.5; ud.flippers[1].rotation.z=-1.5; }
   /* feet paddle while running, trail while airborne */
   ud.feet[0].rotation.x=Math.sin(G.walkPhase)*0.6*runAmt;
   ud.feet[1].rotation.x=Math.sin(G.walkPhase+Math.PI)*0.6*runAmt;
@@ -813,11 +1651,40 @@ function step(dt){
   ud.scarfTail.rotation.z=0.15+Math.sin(t*4.1)*0.1+(runAmt*Math.sin(G.walkPhase)*0.12);
   penguin.visible=!(G.invuln>0&&Math.floor(t*14)%2===0);
 
-  /* camera follow */
-  camTarget.set(G.pos.x*0.82,G.pos.y+6.4,G.pos.z+10.5);
-  camera.position.lerp(camTarget,Math.min(1,4.5*dt));
+  /* M2: landing shadow + objective marker (readability). The shadow sits
+     on the highest island top at or below the penguin and shrinks/fades
+     with height; the chevron bobs above the next checkpoint or the flag. */
+  var groundBelow=platformAt(G.pos.x,G.pos.z,G.pos.y);
+  if(groundBelow&&G.pos.y>-9){
+    var hgt=Math.max(0,G.pos.y-groundBelow.top);
+    var shScale=Math.max(0.45,1-hgt*0.07);
+    landingShadow.visible=true;
+    landingShadow.position.set(G.pos.x,groundBelow.top+0.03,G.pos.z);
+    landingShadow.scale.set(shScale,shScale,1);
+    landingShadow.material.opacity=Math.max(0.10,0.34-hgt*0.03);
+  } else landingShadow.visible=false;
+  var nextObj=null;
+  for(var ci=0;ci<checkpoints.length;ci++){ if(!checkpoints[ci].active){ nextObj={x:checkpoints[ci].x,y:checkpoints[ci].top+4.6,z:checkpoints[ci].z}; break; } }
+  if(!nextObj)nextObj={x:flagPos.x,y:flagPos.y+5.2,z:flagPos.z};
+  objectiveMarker.visible=(G.state==='playing');
+  objectiveMarker.position.set(nextObj.x,nextObj.y+Math.sin(t*2.4)*0.25,nextObj.z);
+  objectiveMarker.rotation.y=t*1.5;
+
+  /* M2 camera: look-ahead in the direction of travel (velocity-scaled,
+     clamped) so the player sees where they are going, plus occlusion
+     handling — the camera is never allowed to sink into an island top it
+     would otherwise clip through, and never below the sea. The follow
+     rate (8/s) is fast enough that the look-ahead is not cancelled by
+     follow lag (at 4.5/s the lag alone was ~1.6 units at full speed). */
+  var lookX=Math.max(-2.2,Math.min(2.2,G.vel.x*0.3));
+  var lookZ=Math.max(-2.2,Math.min(2.2,G.vel.z*0.3));
+  camTarget.set(G.pos.x*0.82+lookX,G.pos.y+6.4,G.pos.z+10.5+lookZ);
+  camera.position.lerp(camTarget,Math.min(1,8*dt));
+  var camPlat=platformAt(camera.position.x,camera.position.z,camera.position.y);
+  if(camPlat&&camera.position.y<camPlat.top+0.9)camera.position.y=camPlat.top+0.9;
+  if(camera.position.y<-6)camera.position.y=-6;
   if(shake>0){ shake-=dt; camera.position.x+=(Math.random()-0.5)*shake*0.7; camera.position.y+=(Math.random()-0.5)*shake*0.7; }
-  camera.lookAt(G.pos.x,G.pos.y+1.4,G.pos.z-2);
+  camera.lookAt(G.pos.x+lookX*0.7,G.pos.y+1.4,G.pos.z-2+lookZ*0.7);
 }
 function waveFlag(flag,t){
   var posAttr=flag.geometry.attributes.position;
@@ -825,14 +1692,37 @@ function waveFlag(flag,t){
   posAttr.needsUpdate=true;
 }
 
+/* PP-02: accumulator-based fixed physics timestep. Every physics step is
+   exactly FIXED_DT, however long the rendered frame took, so game time no
+   longer depends on frame rate. Up to MAX_STEPS_PER_FRAME steps (0.5 s)
+   run per frame — fully accurate down to 2 FPS. If a frame needs more
+   (severe stall, e.g. a 1 FPS hitch or a debugger pause), the excess is
+   recorded in G.stallSeconds as an explicit performance interruption
+   instead of silently slowing the game or letting the player bank free
+   speedrun time. The speedrun timer (G.time) advances only inside step(),
+   only while playing, so pause / focus loss never count. */
+var FIXED_DT=1/60, MAX_STEPS_PER_FRAME=30;
 function loop(){
   requestAnimationFrame(loop);
   timer.update();
-  var dt=Math.min(timer.getDelta(),0.05); /* dt clamp is the large-frame-time safety net (unchanged) */
-  try{ step(dt); }catch(err){ errBox.style.display='block'; errBox.textContent='Error: '+err.message; }
+  pollGamepad(); /* M2: read the gamepad once per rendered frame */
+  var realDt=timer.getDelta();
+  if(!(realDt>=0))realDt=0; /* guard NaN / negative deltas */
+  G._acc+=Math.min(realDt,1.0); /* cap one frame's backlog; the rest is stall, see below */
+  try{
+    var steps=0;
+    while(G._acc>=FIXED_DT&&steps<MAX_STEPS_PER_FRAME){ step(FIXED_DT); G._acc-=FIXED_DT; steps++; }
+    if(G._acc>=FIXED_DT){ G.stallSeconds+=G._acc; G._acc=0; }
+  }catch(err){ errBox.style.display='block'; errBox.textContent='Error: '+err.message; }
   renderer.render(scene,camera);
 }
+/* M2: apply the saved settings (renderer quality + keymap) once the
+   whole script has run — calling this earlier would be wiped by the
+   `var keyMap={}` initializer in the input section below. */
+applySettings();
+renderLevelSelect();
 updateHUD();
+renderControlsHelp();
 loop();
 
 window.addEventListener('resize',function(){
@@ -840,7 +1730,7 @@ window.addEventListener('resize',function(){
   renderer.setSize(window.innerWidth,window.innerHeight);
 });
 /* expose for verification */
-window.__game={G:G,keys:keys,startGame:startGame,resetGame:resetGame,checkpoints:checkpoints,fishes:fishes,penguin:penguin,spawnBurst:spawnBurst};
+window.__game={G:G,keys:keys,fmtTime1:fmtTime1,_input:{activeCodes:activeCodes,touchHeld:touchHeld,gamepadHeld:gamepadHeld,recomputeKeys:recomputeKeys},loadSave:loadSave,clearAllInput:clearAllInput,handleFocusLoss:handleFocusLoss,clearQueuedActions:clearQueuedActions,clearTransientInput:clearTransientInput,startGame:startGame,resetGame:resetGame,checkpoints:checkpoints,fishes:fishes,penguin:penguin,spawnBurst:spawnBurst,save:saveData,ACHIEVEMENTS:ACHIEVEMENTS,unlockAch:unlockAch,openPanel:openPanel,closePanels:closePanels,showTeach:showTeach,medalLines:medalLines,totalBest:totalBest,collPct:collPct,persist:persist,platforms:platforms,enemies:enemies,hurtPlayer:hurtPlayer,winGame:winGame,gameOver:gameOver,landingShadow:landingShadow,objectiveMarker:objectiveMarker,camera:camera,platformAt:platformAt,COYOTE_TIME:COYOTE_TIME,JUMP_BUFFER:JUMP_BUFFER,AIR_ACCEL:AIR_ACCEL,get slideHeld(){ return slideHeld; },settings:saveData.settings,setBinding:setBinding,applySettings:applySettings,startRebind:startRebind,get toneCalls(){ return toneCalls; },get shake(){ return shake; },renderer:renderer,get rebinding(){ return rebindingAction; },pollGamepad:pollGamepad,get gamepadActive(){ return gamepadActive; },get padSlideHeld(){ return padSlideHeld; },musicTick:musicTick,MUSIC_NOTES:MUSIC_NOTES,startGameAtWorld:startGameAtWorld,renderLevelSelect:renderLevelSelect,get achQueueLen(){ return achToastQueue.length; },get achShowing(){ return achToastShowing; }};
 })();
 </script>
 </body>

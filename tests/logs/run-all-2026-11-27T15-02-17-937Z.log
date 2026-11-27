@@ -1,0 +1,124 @@
+
+===== pp01 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp01.js) =====
+PP-01 forced software rendering (main.js static checks)
+  PASS main.js parses (node --check)
+  PASS no unconditional forced software-rendering switches
+  PASS software/compat mode exists only as explicit opt-in (env-gated)
+  PASS GPU/backend diagnostics are logged (getGPUInfo or getGPUFeatureStatus)
+  PASS security posture kept: contextIsolation, sandbox, nodeIntegration=false
+PP-01: ALL PASS
+
+===== pp02 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp02.js) =====
+PP-02 frame-rate-dependent time (standing-still timer + scripted wiggle)
+  PASS active timer within 1% of 60 s at 60 FPS (got 60.00 s)
+  PASS active timer within 1% of 60 s at 30 FPS (got 60.00 s)
+  PASS active timer within 1% of 60 s at 20 FPS (got 60.00 s)
+  PASS active timer within 1% of 60 s at 10 FPS (got 60.00 s)
+  PASS active timer within 1% of 60 s at 6 FPS (got 60.00 s)
+  PASS player position agrees across frame rates (standing still)
+  PASS moving-platform phase agrees across frame rates
+  PASS enemy phase agrees across frame rates
+  PASS scripted wiggle: timer + position agree at 30 FPS vs 60 FPS
+  PASS scripted wiggle: timer + position agree at 20 FPS vs 60 FPS
+  PASS scripted wiggle: timer + position agree at 10 FPS vs 60 FPS
+  PASS scripted wiggle: timer + position agree at 6 FPS vs 60 FPS
+  PASS no tunnelling: jump at 6 FPS still lands back on the platform
+PP-02: ALL PASS
+
+===== pp03 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp03.js) =====
+PP-03 duplicate movement alias
+  PASS forward: release KeyW while ArrowUp held keeps moving
+  PASS forward: release ArrowUp while KeyW held keeps moving (reverse order)
+  PASS back: release KeyS while ArrowDown held keeps moving
+  PASS back: release ArrowDown while KeyS held keeps moving (reverse order)
+  PASS left: release KeyA while ArrowLeft held keeps moving
+  PASS left: release ArrowLeft while KeyA held keeps moving (reverse order)
+  PASS right: release KeyD while ArrowRight held keeps moving
+  PASS right: release ArrowRight while KeyD held keeps moving (reverse order)
+  PASS forward: keyboard W survives touch-forward release (mixed devices)
+  PASS forward: touch survives W release (mixed devices, reverse)
+  PASS forward actually moves the penguin while the second alias is held
+PP-03: ALL PASS
+
+===== pp04 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp04.js) =====
+PP-04 action auto-repeat
+  PASS holding P for 2 s pauses exactly once (repeat P does not resume)
+  PASS holding Escape for 2 s pauses exactly once
+  PASS holding Space mid-air does not fire the double jump
+  PASS release + re-press Space mid-air still double-jumps (intentional)
+  PASS holding R for 2 s does not restart repeatedly (single reset)
+PP-04: ALL PASS
+
+===== pp05 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp05.js) =====
+PP-05 unwanted jump on restart
+  PASS queued Space before restart does not jump after reset (audit case)
+  PASS spawn is stable for 1 s after restart with no fresh input
+  PASS transient physics/input fields are cleared by reset
+  PASS restart mid-dash leaves no dash running
+  PASS restart from a modal (collection panel open) clears queued input
+PP-05: ALL PASS
+
+===== pp06 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp06.js) =====
+PP-06 pause advances hazards
+  PASS P-pause: 10 s paused leaves platforms, crabs, timer and player frozen
+  PASS Esc-pause: 2 s paused leaves hazards frozen
+  PASS collection panel (blocking modal): hazards frozen while open
+  PASS pause while standing ON a moving platform: attachment + position survive
+  PASS resume after a long pause continues from the frozen phase (no jump)
+PP-06: ALL PASS
+
+===== pp07 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp07.js) =====
+PP-07 focus loss / input recovery
+  PASS window blur handler exists
+  PASS document visibilitychange handler exists
+  PASS gamepad disconnect handler exists
+  PASS blur while holding W: input cleared, game auto-pauses, no movement after
+  PASS visibility hidden while holding Space: queued jump cleared, game pauses
+  PASS gamepad disconnect clears input state
+PP-07: ALL PASS
+
+===== pp08 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp08.js) =====
+PP-08 concurrent instances and saves
+  PASS main.js takes the single-instance lock
+  PASS second instance focuses the primary window instead of opening a new one
+  PASS test-only isolated userData path exists (no production profile sharing in tests)
+  PASS malformed save JSON loads defaults without throwing
+  PASS out-of-range / wrong-type save fields are validated and clamped
+  PASS valid existing progress is preserved across a reload
+  PASS a storage write failure is visible, not silently swallowed
+PP-08: ALL PASS
+
+===== pp09 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp09.js) =====
+PP-09 web / desktop divergence
+  PASS deterministic sync pipeline exists (scripts/sync-web-demo.js)
+  PASS sync pipeline is deterministic (run twice, same hash)
+  FAIL root index.html is byte-identical to canonical app/index.html: web demo diverges from desktop source (sha256 differs)
++ actual - expected
+
++ 'd1cbbe9da0fcb1c0807c187c39f8a945afc3c7ef60062c0027284ee43a498f9c'
+- '47fc240bc72257f4822cddf27765b6ded76c3e4eaa5daa6c369e350a426e6dd6'
+
+  PASS web demo contains feature marker: hasDoubleJump
+  PASS web demo contains feature marker: dashQueued
+  PASS web demo contains feature marker: penguinPeaksSaveV1
+  PASS web demo contains feature marker: max-height:88vh
+  PASS web demo contains feature marker: ACH_SPEEDY
+  PASS web demo runs the same core route features live (double jump + dash)
+PP-09: 1 FAILURE(S) — defect reproduced on baseline
+
+===== pp10 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp10.js) =====
+PP-10 medal display vs threshold
+  PASS 119.9 s earns Gold time and shows 1:59.9
+  PASS 120.0 s earns Gold time and shows 2:00.0
+  PASS 120.1 s is NOT gold: shows 2:00.1 finished and 0.1 seconds short
+  PASS 120.4 s (audit case): shows 2:00.4 and 0.4 seconds short, never "finished 2:00"
+  PASS 179.9 s: short of gold by 59.9 s, shown with tenths
+  PASS 180.0 s earns Silver time (3:00.0) with no shortfall
+  PASS 180.1 s is past silver: shows 3:00.1 and 0.1 seconds short of 3:00
+  PASS best time is stored precisely, not rounded (win at 50.4 s)
+  PASS save and medal UI agree: collection panel shows the precise best time
+PP-10: ALL PASS
+
+===== SUMMARY =====
+9/10 test files passed
+FAILED: pp09

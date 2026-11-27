@@ -1,0 +1,35 @@
+
+===== pp04 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp04.js) =====
+PP-04 action auto-repeat
+  FAIL holding P for 2 s pauses exactly once (repeat P does not resume): repeat P #1 toggled pause back to playing
++ actual - expected
+
++ 'playing'
+- 'paused'
+
+  FAIL holding Escape for 2 s pauses exactly once: repeat Escape #1 toggled pause
++ actual - expected
+
++ 'playing'
+- 'paused'
+
+  FAIL holding Space mid-air does not fire the double jump: repeat Space fired the double jump (vy 2.266666666666662 -> 9.436666666666666)
+  PASS release + re-press Space mid-air still double-jumps (intentional)
+  PASS holding R for 2 s does not restart repeatedly (single reset)
+PP-04: 3 FAILURE(S) — defect reproduced on baseline
+
+===== pp05 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp05.js) =====
+PP-05 unwanted jump on restart
+  FAIL queued Space before restart does not jump after reset (audit case): stale queued jump fired after restart (vy=10.066666666666666)
+  PASS spawn is stable for 1 s after restart with no fresh input
+  FAIL transient physics/input fields are cleared by reset: jumpBuffer survived reset
+
+0.13 !== 0
+
+  PASS restart mid-dash leaves no dash running
+  FAIL restart from a modal (collection panel open) clears queued input: stale jump fired after modal restart (vy=10.066666666666666)
+PP-05: 3 FAILURE(S) — defect reproduced on baseline
+
+===== SUMMARY =====
+0/2 test files passed
+FAILED: pp04, pp05

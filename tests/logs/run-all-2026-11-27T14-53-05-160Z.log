@@ -1,0 +1,209 @@
+
+===== pp01 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp01.js) =====
+PP-01 forced software rendering (main.js static checks)
+  PASS main.js parses (node --check)
+  PASS no unconditional forced software-rendering switches
+  PASS software/compat mode exists only as explicit opt-in (env-gated)
+  PASS GPU/backend diagnostics are logged (getGPUInfo or getGPUFeatureStatus)
+  PASS security posture kept: contextIsolation, sandbox, nodeIntegration=false
+PP-01: ALL PASS
+
+===== pp02 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp02.js) =====
+PP-02 frame-rate-dependent time (standing-still timer + scripted wiggle)
+  PASS active timer within 1% of 60 s at 60 FPS (got 60.00 s)
+  PASS active timer within 1% of 60 s at 30 FPS (got 60.00 s)
+  PASS active timer within 1% of 60 s at 20 FPS (got 60.00 s)
+  PASS active timer within 1% of 60 s at 10 FPS (got 60.00 s)
+  PASS active timer within 1% of 60 s at 6 FPS (got 60.00 s)
+  PASS player position agrees across frame rates (standing still)
+  PASS moving-platform phase agrees across frame rates
+  PASS enemy phase agrees across frame rates
+  PASS scripted wiggle: timer + position agree at 30 FPS vs 60 FPS
+  PASS scripted wiggle: timer + position agree at 20 FPS vs 60 FPS
+  PASS scripted wiggle: timer + position agree at 10 FPS vs 60 FPS
+  PASS scripted wiggle: timer + position agree at 6 FPS vs 60 FPS
+  PASS no tunnelling: jump at 6 FPS still lands back on the platform
+PP-02: ALL PASS
+
+===== pp03 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp03.js) =====
+PP-03 duplicate movement alias
+  FAIL forward: release KeyW while ArrowUp held keeps moving: forward became false after releasing KeyW while ArrowUp held
+
+false !== true
+
+  FAIL forward: release ArrowUp while KeyW held keeps moving (reverse order): forward became false after releasing ArrowUp while KeyW held
+
+false !== true
+
+  FAIL back: release KeyS while ArrowDown held keeps moving: back became false after releasing KeyS while ArrowDown held
+
+false !== true
+
+  FAIL back: release ArrowDown while KeyS held keeps moving (reverse order): back became false after releasing ArrowDown while KeyS held
+
+false !== true
+
+  FAIL left: release KeyA while ArrowLeft held keeps moving: left became false after releasing KeyA while ArrowLeft held
+
+false !== true
+
+  FAIL left: release ArrowLeft while KeyA held keeps moving (reverse order): left became false after releasing ArrowLeft while KeyA held
+
+false !== true
+
+  FAIL right: release KeyD while ArrowRight held keeps moving: right became false after releasing KeyD while ArrowRight held
+
+false !== true
+
+  FAIL right: release ArrowRight while KeyD held keeps moving (reverse order): right became false after releasing ArrowRight while KeyD held
+
+false !== true
+
+  FAIL forward: keyboard W survives touch-forward release (mixed devices): forward became false after touch release while W held
+
+false !== true
+
+  FAIL forward: touch survives W release (mixed devices, reverse): forward became false after W release while touch held
+
+false !== true
+
+  FAIL forward actually moves the penguin while the second alias is held: penguin did not move forward (z 2 -> 2)
+PP-03: 11 FAILURE(S) — defect reproduced on baseline
+
+===== pp04 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp04.js) =====
+PP-04 action auto-repeat
+  FAIL holding P for 2 s pauses exactly once (repeat P does not resume): repeat P #1 toggled pause back to playing
++ actual - expected
+
++ 'playing'
+- 'paused'
+
+  FAIL holding Escape for 2 s pauses exactly once: repeat Escape #1 toggled pause
++ actual - expected
+
++ 'playing'
+- 'paused'
+
+  FAIL holding Space mid-air does not fire the double jump: repeat Space fired the double jump (vy 2.266666666666662 -> 9.436666666666666)
+  PASS release + re-press Space mid-air still double-jumps (intentional)
+  PASS holding R for 2 s does not restart repeatedly (single reset)
+PP-04: 3 FAILURE(S) — defect reproduced on baseline
+
+===== pp05 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp05.js) =====
+PP-05 unwanted jump on restart
+  FAIL queued Space before restart does not jump after reset (audit case): stale queued jump fired after restart (vy=10.066666666666666)
+  PASS spawn is stable for 1 s after restart with no fresh input
+  FAIL transient physics/input fields are cleared by reset: jumpBuffer survived reset
+
+0.13 !== 0
+
+  PASS restart mid-dash leaves no dash running
+  FAIL restart from a modal (collection panel open) clears queued input: stale jump fired after modal restart (vy=10.066666666666666)
+PP-05: 3 FAILURE(S) — defect reproduced on baseline
+
+===== pp06 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp06.js) =====
+PP-06 pause advances hazards
+  PASS P-pause: 10 s paused leaves platforms, crabs, timer and player frozen
+  PASS Esc-pause: 2 s paused leaves hazards frozen
+  PASS collection panel (blocking modal): hazards frozen while open
+  PASS resume after a long pause continues from the frozen phase (no jump)
+PP-06: ALL PASS
+
+===== pp07 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp07.js) =====
+PP-07 focus loss / input recovery
+  FAIL window blur handler exists: no window blur handler registered
+  FAIL document visibilitychange handler exists: no visibilitychange handler registered
+  FAIL gamepad disconnect handler exists: no gamepaddisconnected handler registered
+  FAIL blur while holding W: input cleared, game auto-pauses, no movement after: forward stayed held after blur
+
+true !== false
+
+  FAIL visibility hidden while holding Space: queued jump cleared, game pauses: game did not auto-pause on visibility loss
++ actual - expected
+
++ 'playing'
+- 'paused'
+
+  FAIL gamepad disconnect clears input state: forward stayed held after gamepad disconnect
+
+true !== false
+
+PP-07: 6 FAILURE(S) — defect reproduced on baseline
+
+===== pp08 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp08.js) =====
+PP-08 concurrent instances and saves
+  FAIL main.js takes the single-instance lock: app.requestSingleInstanceLock() missing
+  FAIL second instance focuses the primary window instead of opening a new one: no second-instance handler in main.js
+  FAIL test-only isolated userData path exists (no production profile sharing in tests): no isolated userData support for tests
+  PASS malformed save JSON loads defaults without throwing
+  FAIL out-of-range / wrong-type save fields are validated and clamped: bestZone not clamped: [99,-5,3]
++ actual - expected
+
+  [
++   99,
++   -5,
+-   8,
+-   0,
+    3
+  ]
+
+  PASS valid existing progress is preserved across a reload
+  FAIL a storage write failure is visible, not silently swallowed: persist() failed silently: no visible error and no saveError flag
+PP-08: 5 FAILURE(S) — defect reproduced on baseline
+
+===== pp09 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp09.js) =====
+PP-09 web / desktop divergence
+  FAIL deterministic sync pipeline exists (scripts/sync-web-demo.js): scripts/sync-web-demo.js missing
+  FAIL sync pipeline is deterministic (run twice, same hash): Command failed: node /home/hatch/workspace/penguin-peaks-audit/repo/scripts/sync-web-demo.js
+node:internal/modules/cjs/loader:1568
+  throw err;
+  ^
+
+Error: Cannot find module '/home/hatch/workspace/penguin-peaks-audit/repo/scripts/sync-web-demo.js'
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1564:15)
+    at wrapResolveFilename (node:internal/modules/cjs/loader:1118:27)
+    at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1142:10)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1169:12)
+    at Module._load (node:internal/modules/cjs/loader:1341:5)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v24.22.1
+
+  FAIL root index.html is byte-identical to canonical app/index.html: web demo diverges from desktop source (sha256 differs)
++ actual - expected
+
++ '37258bc1698e2e0c3bfdac112c23c7f7e582888b8cc1d38ab566ed71c0d0b9fb'
+- '23d40dc289ff2d40bb51e8738c447e84ceef73a1417cb3df506d1e8abae9ed3a'
+
+  FAIL web demo contains feature marker: hasDoubleJump: root index.html lacks hasDoubleJump
+  FAIL web demo contains feature marker: dashQueued: root index.html lacks dashQueued
+  FAIL web demo contains feature marker: penguinPeaksSaveV1: root index.html lacks penguinPeaksSaveV1
+  FAIL web demo contains feature marker: max-height:88vh: root index.html lacks max-height:88vh
+  FAIL web demo contains feature marker: ACH_SPEEDY: root index.html lacks ACH_SPEEDY
+  FAIL web demo runs the same core route features live (double jump + dash): double jump did not fire in the web demo
+PP-09: 9 FAILURE(S) — defect reproduced on baseline
+
+===== pp10 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp10.js) =====
+PP-10 medal display vs threshold
+  FAIL 119.9 s earns Gold time and shows 1:59.9: got: 🥇 Gold medal: all 24 fish collected! | 🥇 Gold time: 2:00 — you finished in 1:59!
+  FAIL 120.0 s earns Gold time and shows 2:00.0: got: 🥇 Gold medal: all 24 fish collected! | 🥇 Gold time: 2:00 — you finished in 2:00!
+  FAIL 120.1 s is NOT gold: shows 2:00.1 finished and 0.1 seconds short: finished time not shown with tenths: 🥇 Gold medal: all 24 fish collected! | Gold time 2:00 — you finished 2:00. 1 seconds short!
+  FAIL 120.4 s (audit case): shows 2:00.4 and 0.4 seconds short, never "finished 2:00": got: 🥇 Gold medal: all 24 fish collected! | Gold time 2:00 — you finished 2:00. 1 seconds short!
+  FAIL 179.9 s: short of gold by 59.9 s, shown with tenths: got: 🥇 Gold medal: all 24 fish collected! | Gold time 2:00 — you finished 2:59. 60 seconds short!
+  FAIL 180.0 s earns Silver time (3:00.0) with no shortfall: got: 🥇 Gold medal: all 24 fish collected! | Gold time 2:00 — you finished 3:00. 60 seconds short!
+  FAIL 180.1 s is past silver: shows 3:00.1 and 0.1 seconds short of 3:00: got: 🥇 Gold medal: all 24 fish collected! | Silver time 3:00 — you finished 3:00. 1 seconds short!
+  FAIL best time is stored precisely, not rounded (win at 50.4 s): bestTime stored as 50
+
+50 !== 50.4
+
+  FAIL save and medal UI agree: collection panel shows the precise best time: collection panel shows "<div class=\"worldRow\"><div class=\"wrHead\"><span>World 1 — Sunset Shallows</span><span>0/8</span></div><div class=\"barWrap\"><div class=\"barFill\" style=\"width:0%\"></div></div></div><div class=\"worldRow\"><div class=\"wrHead\"><span>World 2 — Crab Crossing</span><span>0/8</span></div><div class=\"barWrap\"><div class=\"barFill\" style=\"width:0%\"></div></div></div><div class=\"worldRow\"><div class=\"wrHead\"><span>World 3 — Flag Peak</span><span>0/8</span></div><div class=\"barWrap\"><div class=\"barFill\" style=\"width:0%\"></div></div></div><p style=\"font-size:16px;text-align:center;margin:12px 0 4px\">Total: <b style=\"color:#ffd166\">Fish 0/24 — 0%</b></p><p style=\"text-align:center;font-size:13px\">Best per world is saved on this device. Lifetime fish caught: <b>0</b> · Wins: <b>1</b> · Best win time: <b>0:50</b></p>"
+PP-10: 9 FAILURE(S) — defect reproduced on baseline
+
+===== SUMMARY =====
+3/10 test files passed
+FAILED: pp03, pp04, pp05, pp07, pp08, pp09, pp10

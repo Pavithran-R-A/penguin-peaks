@@ -1,0 +1,58 @@
+{
+  "errors": [],
+  "checks": {
+    "start640": {
+      "cardTop": 24,
+      "cardBottom": 376,
+      "scrollH": 602,
+      "clientH": 348,
+      "startBtn": {
+        "top": 340,
+        "bottom": 384,
+        "visible": true
+      },
+      "canvas": true,
+      "game": true
+    },
+    "start640AfterScroll": {
+      "top": 86,
+      "bottom": 130,
+      "visible": true
+    },
+    "gameplay640": {
+      "state": "playing",
+      "pos": {
+        "x": 0,
+        "y": -0.56,
+        "z": -13.63
+      },
+      "fish": 2,
+      "hearts": 3,
+      "time": 2.8
+    },
+    "slide640": {
+      "sliding": true,
+      "speed": 10.48
+    },
+    "fps640": {
+      "frames": 11,
+      "fps": 5.5
+    },
+    "settings720": {
+      "visible": true,
+      "state": "paused",
+      "cardH": 634,
+      "hasQuality": true,
+      "hasRebind": true
+    },
+    "fps720": {
+      "frames": 6,
+      "fps": 2.5
+    },
+    "start1080": {
+      "cardFits": true,
+      "startVisible": true
+    },
+    "errorCount": 0
+  }
+}

@@ -1,0 +1,54 @@
+
+===== pp04 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp04.js) =====
+PP-04 action auto-repeat
+  PASS holding P for 2 s pauses exactly once (repeat P does not resume)
+  PASS holding Escape for 2 s pauses exactly once
+  FAIL holding Space mid-air does not fire the double jump: repeat Space fired the double jump (vy 2.266666666666662 -> 9.436666666666666)
+  PASS release + re-press Space mid-air still double-jumps (intentional)
+  PASS holding R for 2 s does not restart repeatedly (single reset)
+PP-04: 1 FAILURE(S) — defect reproduced on baseline
+
+===== pp05 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp05.js) =====
+PP-05 unwanted jump on restart
+  FAIL queued Space before restart does not jump after reset (audit case): stale queued jump fired after restart (vy=10.066666666666666)
+  PASS spawn is stable for 1 s after restart with no fresh input
+  FAIL transient physics/input fields are cleared by reset: jumpBuffer survived reset
+
+0.13 !== 0
+
+  PASS restart mid-dash leaves no dash running
+  PASS restart from a modal (collection panel open) clears queued input
+PP-05: 2 FAILURE(S) — defect reproduced on baseline
+
+===== pp06 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp06.js) =====
+PP-06 pause advances hazards
+  FAIL P-pause: 10 s paused leaves platforms, crabs, timer and player frozen: P-pause: moving platform 1 moved -3.389417499184829 -> 0.2530435046802472
+  FAIL Esc-pause: 2 s paused leaves hazards frozen: Esc-pause: moving platform 1 moved -3.389417499184829 -> 1.7779612179906705
+  FAIL collection panel (blocking modal): hazards frozen while open: collection panel: moving platform 1 moved -3.389417499184829 -> 1.7779612179906705
+  FAIL resume after a long pause continues from the frozen phase (no jump): pause/resume: moving platform 1 moved -3.389417499184829 -> -2.2128600007256565
+PP-06: 4 FAILURE(S) — defect reproduced on baseline
+
+===== pp08 (/home/hatch/workspace/penguin-peaks-audit/repo/tests/test-pp08.js) =====
+PP-08 concurrent instances and saves
+  FAIL main.js takes the single-instance lock: app.requestSingleInstanceLock() missing
+  FAIL second instance focuses the primary window instead of opening a new one: no second-instance handler in main.js
+  FAIL test-only isolated userData path exists (no production profile sharing in tests): no isolated userData support for tests
+  PASS malformed save JSON loads defaults without throwing
+  FAIL out-of-range / wrong-type save fields are validated and clamped: bestZone not clamped: [99,-5,3]
++ actual - expected
+
+  [
++   99,
++   -5,
+-   8,
+-   0,
+    3
+  ]
+
+  PASS valid existing progress is preserved across a reload
+  FAIL a storage write failure is visible, not silently swallowed: persist() failed silently: no visible error and no saveError flag
+PP-08: 5 FAILURE(S) — defect reproduced on baseline
+
+===== SUMMARY =====
+0/4 test files passed
+FAILED: pp04, pp05, pp06, pp08
